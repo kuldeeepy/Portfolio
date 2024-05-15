@@ -21,7 +21,7 @@ function Skill() {
         </li>
         <li className="my-3">
           <em className="font-semibold">Miscellaneous -</em> Some of the general
-          tools include hoppscotch for API testing and some of the free deployment
+          tools include hoppscotch (formerly PostWoman) for API testing and some of the free deployment
           sources I prefer using are render and vercel.
         </li>
       </ul>
