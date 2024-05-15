@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  box-sizing: border-box;
+  padding-inline: 24px;
+  padding-block: 32px;
+  width: 100vw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
