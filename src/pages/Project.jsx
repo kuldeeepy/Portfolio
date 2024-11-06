@@ -1,9 +1,9 @@
 import Work from "../components/Work.jsx";
 import one from "../assets/project_one.png";
-import two from "../assets/project_two.png";
+import two from "../assets/project_two.webp";
 import three from "../assets/project_three.png";
 import four from "../assets/project_four.png";
-import five from "../assets/project_five.png";
+import five from "../assets/project_five.webp";
 
 let url1 = import.meta.env.VITE_URL1;
 let url2 = import.meta.env.VITE_URL2;

@@ -11,7 +11,7 @@ function Skill() {
         </li>
         <li className="my-4">
           <em className="font-semibold">Backend -</em> For the backend part I
-          use Node as a runtime env.. on top of that express for establishing
+          use Node as a runtime env. on top of that express for establishing
           the server.
         </li>
         <li>

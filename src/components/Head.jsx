@@ -4,11 +4,14 @@ import logo from "../assets/picture.jpg";
 import { BsTwitterX } from "react-icons/bs";
 import { AiFillGithub } from "react-icons/ai";
 import { FaLinkedin } from "react-icons/fa";
+import { SiLeetcode } from "react-icons/si";
 import Border from "./Border";
 
 let x = import.meta.env.VITE_X;
 let git = import.meta.env.VITE_GIT;
 let lkd = import.meta.env.VITE_LINKEDIN;
+let lcd = import.meta.env.VITE_LEETCODE;
+let cv = import.meta.env.VITE_RESUME;
 
 function Head() {
   return (
@@ -30,7 +33,11 @@ function Head() {
         <Link to={lkd} target="_blank">
           <FaLinkedin fontSize={20} />
         </Link>
+        <Link to={lcd} target="_blank">
+          <SiLeetcode fontSize={20}/>
+        </Link>
       </span>
+      <Link to={cv} target="_blank"><h1 className="font-medium">Resume</h1></Link>
       <Border />
     </div>
   );
