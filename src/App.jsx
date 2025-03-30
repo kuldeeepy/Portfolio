@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Head from "./components/Head";
 import About from "./pages/About";
 import Project from "./pages/Project";

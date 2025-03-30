@@ -4,25 +4,23 @@ function Skill() {
   return (
     <div className="mb-6">
       <h2 className="font-semibold my-3">Skills</h2>
-      <ul className="list-disc list-inide pl-5">
+      <ul className="list-disc list-inside pl-3">
         <li>
-          <em className="font-semibold">Frontend -</em> My frontend toolkit
-          includes React as a library, Tailwind and MUI for styling the UI.
+          <strong>Frontend:</strong> I work with React and Vue.js for building
+          user interfaces, and I use Tailwind CSS and MUI for styling.
         </li>
         <li className="my-4">
-          <em className="font-semibold">Backend -</em> For the backend part I
-          use Node as a runtime env. on top of that express for establishing
-          the server.
+          <strong>Backend:</strong> I use Node.js for the backend, with Express
+          to set up the server.
         </li>
         <li>
-          <em className="font-semibold">Database -</em> To visualize the data
-          flow I use draw.io and I've used MongoDB, MySQL, Firebase till now
-          (not limited to) also I use Mongoose(ODM) to make things simple.
+          <strong>Databases:</strong> I’ve worked with MongoDB, MySQL,
+          PostgreSQL, and Firebase, and I use draw.io to visualize data flow.
         </li>
         <li className="my-3">
-          <em className="font-semibold">Miscellaneous -</em> Some of the general
-          tools include hoppscotch (formerly PostWoman) for API testing and some of the free deployment
-          sources I prefer using are render and vercel.
+          <strong>Miscellaneous:</strong> For API testing, I use Hoppscotch
+          (formerly PostWoman), and I prefer deploying apps on Render and
+          Vercel.
         </li>
       </ul>
     </div>

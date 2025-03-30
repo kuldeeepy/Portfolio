@@ -6,8 +6,8 @@ function About() {
   return (
     <>
       <div className="my-4">
-        Founding Software Engineer at Go CrossPay. Passionate about designing
-        scalabale backend systems also have keen interest in entrepreneurship .
+        I work on web, alongside experimenting with other things, also have keen
+        interest in entrepreneurship and science fiction stuff.
       </div>
       <Experience />
       <Skill />
