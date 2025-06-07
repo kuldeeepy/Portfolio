@@ -4,11 +4,11 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 
 function Work({ value }) {
   return (
-    <div className="relative">
+    <div className="relative h-full w-full">
       <img
         src={value?.img}
         alt="project"
-        className="max-w-full object-cover md:w-[190px] transition duration-300 ease-in-out"
+        className="min-h-full object-cover rounded-lg transition duration-300 ease-in-out"
       />
       <div className="absolute inset-0 bg-black opacity-0 hover:opacity-50 transition duration-300 ease-in-out">
         <Link to={value?.src} target="_blank">

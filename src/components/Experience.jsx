@@ -24,7 +24,7 @@ export default function Experience() {
             <TimelineConnector />
           </TimelineSeparator>
           <TimelineContent>
-            SWE <p className="text-gray-600 text-sm font-normal">KIM.CC</p>
+            SWE <p className="text-sm font-normal">KIM.CC</p>
           </TimelineContent>
         </TimelineItem>
 
@@ -33,8 +33,7 @@ export default function Experience() {
             <TimelineDot />
           </TimelineSeparator>
           <TimelineContent>
-            Founding Engineer{" "}
-            <p className="text-gray-600 text-sm font-normal">Go CrossPay</p>
+            Founding Engineer <p className="text-sm font-normal">Go CrossPay</p>
           </TimelineContent>
         </TimelineItem>
       </Timeline>

@@ -3,10 +3,29 @@
 @tailwind utilities;
 
 #root {
+  margin: 0;
+  /* padding-inline: 1.25rem;
+  padding-block: 5rem; */
   box-sizing: border-box;
-  padding-inline: 24px;
-  padding-block: 32px;
   width: 100vw;
   overflow-x: hidden;
+  /* color: #1b1b18; */
+  /* background-color: #fdfdfc; */
   scroll-behavior: smooth;
+  position: relative;
+  background: transparent;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
