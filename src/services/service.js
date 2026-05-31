@@ -1,9 +1,13 @@
+const isValidGeoString = (s) => typeof s === "string" && /[a-zA-Z]/.test(s) && s.length > 1;
+
 export const getUserLocation = async () => {
   try {
     const resp = await fetch("https://get.geojs.io/v1/ip/geo.json");
     const data = await resp.json();
-    if (data.city && data.region) {
-      return { success: true, location: { city: data.city, region: data.region } };
+    const city   = data.city;
+    const region = data.region || data.country;  // fall back to country if no region
+    if (isValidGeoString(city) && isValidGeoString(region)) {
+      return { success: true, location: { city, region } };
     }
     return { success: false };
   } catch {
