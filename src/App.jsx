@@ -155,7 +155,9 @@ export default function App() {
   const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
 
   return (
-    <div style={{ position: "relative", isolation: "isolate", minHeight: "100vh" }}>
+    <div
+      style={{ position: "relative", isolation: "isolate", minHeight: "100vh" }}
+    >
       <div className="blur-header" aria-hidden="true" />
 
       <main className="page-main" style={{ position: "relative", zIndex: 1 }}>
@@ -209,7 +211,7 @@ export default function App() {
           <p style={{ color: "var(--body-color)" }}>
             I am builder. professional starter of side projects. I enjoy
             creating products from the ground up and have a soft spot for
-            startups, entrepreneurship & science fiction stuff.
+            entrepreneurship & science fiction stuff and a gym goer.
           </p>
           <Spotify theme={theme} />
         </Section>
@@ -296,8 +298,8 @@ export default function App() {
           <p style={{ color: "var(--body-color)", marginTop: "0.25rem" }}>
             Beyond work, I like to read about startups, finance, new cool tech,
             random article on medium. You&apos;ll occasionally find me watching
-            travel vlogs for my next solo trip or scrolling on X (list goes on).
-            and yes annoying my{" "}
+            travel vlogs for my next solo trip or doing pull-ups at gym. and yes
+            annoying my{" "}
             <PreviewLink src={billu} alt="Billu">
               cat
             </PreviewLink>{" "}
@@ -341,7 +343,9 @@ export default function App() {
             <VisitorLocation />
             <button
               onClick={toggleTheme}
-              aria-label={isLight ? "Switch to dark mode" : "Switch to light mode"}
+              aria-label={
+                isLight ? "Switch to dark mode" : "Switch to light mode"
+              }
               className="theme-toggle-btn"
             >
               <ThemeToggleIcon isLight={isLight} />
