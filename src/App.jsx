@@ -1,26 +1,18 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import Spotify from "./components/spotify";
 import ShapesCanvas from "./components/ShapesCanvas";
 import ScrambleText from "./components/ScrambleText";
 import SocialIcon from "./components/SocialIcon";
 import WorkIcon from "./components/WorkIcon";
-import VisitorLocation from "./components/VisitorLocation";
-import ThemeToggleIcon from "./components/ThemeToggleIcon";
+import Footer from "./components/Footer";
+import useTheme from "./useTheme";
 
 import { projects, workHistory, connectLinks, RESUME_URL } from "./data";
+import { getAllWritings, formatMonth } from "./writings";
 import picture from "./assets/kuldeep.webp";
 import billu from "./assets/billu.webp";
-
-// ─── theme ────────────────────────────────────────────────────────────────────
-
-function getStoredTheme() {
-  const stored = localStorage.getItem("theme");
-  if (stored) return stored;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-}
 
 // ─── InlineLink — auto-sets data-text for the sweep effect ───────────────────
 
@@ -144,15 +136,8 @@ function PreviewLink({ children, src, alt = "" }) {
 // ─── App ──────────────────────────────────────────────────────────────────────
 
 export default function App() {
-  const [theme, setTheme] = useState(getStoredTheme);
-  const isLight = theme === "light";
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
+  const { theme, toggleTheme } = useTheme();
+  const latestWritings = getAllWritings().slice(0, 3);
 
   return (
     <div
@@ -191,7 +176,15 @@ export default function App() {
               }}
             />
           </a>
-          <TimeCounter />
+          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+            <Link to="/writings" className="header-link">
+              Writings
+            </Link>
+            <span className="header-dot" aria-hidden="true">
+              ·
+            </span>
+            <TimeCounter />
+          </div>
         </header>
 
         {/* intro */}
@@ -236,6 +229,39 @@ export default function App() {
         </Section>
 
         <Separator />
+
+        {/* writings */}
+        {latestWritings.length > 0 && (
+          <>
+            <Section delay={0.45}>
+              <SectionHeading>Writings</SectionHeading>
+              <div
+                style={{
+                  marginTop: "0.25rem",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {latestWritings.map((w) => (
+                  <Link
+                    key={w.slug}
+                    to={`/writings/${w.slug}`}
+                    state={{ from: "home" }}
+                    className="writing-row writing-row--compact"
+                  >
+                    <span className="writing-title">{w.title}</span>
+                    <span className="writing-date">{formatMonth(w.date)}</span>
+                  </Link>
+                ))}
+                <Link to="/writings" className="writing-view-all">
+                  view all →
+                </Link>
+              </div>
+            </Section>
+
+            <Separator />
+          </>
+        )}
 
         {/* work life */}
         <Section delay={0.3}>
@@ -333,25 +359,7 @@ export default function App() {
 
         {/* footer */}
         <Section delay={0.7}>
-          <footer
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <VisitorLocation />
-            <button
-              onClick={toggleTheme}
-              aria-label={
-                isLight ? "Switch to dark mode" : "Switch to light mode"
-              }
-              className="theme-toggle-btn"
-            >
-              <ThemeToggleIcon isLight={isLight} />
-              {isLight ? "Dark" : "Light"}
-            </button>
-          </footer>
+          <Footer theme={theme} toggleTheme={toggleTheme} />
         </Section>
       </main>
 
