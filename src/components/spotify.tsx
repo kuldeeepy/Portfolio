@@ -11,26 +11,27 @@ type Track = {
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
-function formatTime(raw: string): string {
-  if (!raw) return "";
-  // LastFM format: "31 May 2026, 16:56"
-  const [datePart, timePart] = raw.split(", ");
-  if (!timePart) return raw;
+// `uts` is a UTC epoch (seconds) from LastFM — timezone-agnostic, so we can
+// render it in whatever timezone the visitor's browser is in.
+function formatTime(uts: string): string {
+  if (!uts) return "";
+  const date = new Date(Number(uts) * 1000);
+  if (Number.isNaN(date.getTime())) return "";
 
-  const today = new Date();
-  const todayStr = today
-    .toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    })
-    .replace(",", "");
+  const timePart = date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
-  const isToday =
-    datePart.trim() === todayStr.trim() ||
-    new Date(datePart).toDateString() === today.toDateString();
+  const isToday = date.toDateString() === new Date().toDateString();
+  if (isToday) return `Today, ${timePart}`;
 
-  return isToday ? `Today, ${timePart}` : `${datePart}, ${timePart}`;
+  const datePart = date.toLocaleDateString([], {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+  return `${datePart}, ${timePart}`;
 }
 
 // ─── sub-components ───────────────────────────────────────────────────────────
@@ -251,7 +252,7 @@ export default function Spotify({
           artist: t.artist["#text"],
           albumArt: t.image[3]?.["#text"] || t.image[2]?.["#text"] || "",
           nowPlaying,
-          lastPlayedTime: formatTime(t.date?.["#text"] ?? ""),
+          lastPlayedTime: formatTime(t.date?.uts ?? ""),
         });
       }
       setLoading(false);
