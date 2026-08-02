@@ -7,28 +7,13 @@ import ScrambleText from "./components/ScrambleText";
 import SocialIcon from "./components/SocialIcon";
 import WorkIcon from "./components/WorkIcon";
 import Footer from "./components/Footer";
+import PreviewLink from "./components/PreviewLink";
 import useTheme from "./useTheme";
 
 import { projects, workHistory, connectLinks, RESUME_URL } from "./data";
 import { getAllWritings, formatMonth } from "./writings";
-import picture from "./assets/kuldeep.webp";
+import picture from "./assets/kuldeep2.webp";
 import billu from "./assets/billu.webp";
-
-// ─── InlineLink — auto-sets data-text for the sweep effect ───────────────────
-
-function InlineLink({ href, children }) {
-  return (
-    <a
-      className="inline-link"
-      href={href}
-      data-text={children}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {children}
-    </a>
-  );
-}
 
 // ─── layout primitives ────────────────────────────────────────────────────────
 
@@ -46,7 +31,7 @@ function Separator() {
   );
 }
 
-function Section({ children, delay = 0 }) {
+function Section({ children, delay = 0, gap = "0.7rem" }) {
   return (
     <div className="animate-section">
       <section
@@ -54,7 +39,7 @@ function Section({ children, delay = 0 }) {
           animationDelay: `${delay}s`,
           display: "flex",
           flexDirection: "column",
-          gap: "1rem",
+          gap,
         }}
       >
         {children}
@@ -102,11 +87,7 @@ function TimeCounter() {
 
   return (
     <span
-      style={{
-        color: "var(--body-color-faded)",
-        fontSize: "0.78rem",
-        fontVariantNumeric: "tabular-nums",
-      }}
+      className="header-time"
     >
       {time}
       {time && " · IST"}
@@ -114,30 +95,12 @@ function TimeCounter() {
   );
 }
 
-// ─── PreviewLink ─────────────────────────────────────────────────────────────
-
-function PreviewLink({ children, src, alt = "" }) {
-  return (
-    <a
-      className="preview-link"
-      data-text={children}
-      href={src}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {children}
-      <span className="preview-tooltip">
-        <img src={src} alt={alt} />
-      </span>
-    </a>
-  );
-}
-
 // ─── App ──────────────────────────────────────────────────────────────────────
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
-  const latestWritings = getAllWritings().slice(0, 3);
+  const allWritings = getAllWritings();
+  const latestWritings = allWritings.slice(0, 4);
 
   return (
     <div
@@ -146,40 +109,37 @@ export default function App() {
       <div className="blur-header" aria-hidden="true" />
 
       <main className="page-main" style={{ position: "relative", zIndex: 1 }}>
-        {/* header */}
-        <header
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "1rem",
-            padding: "1rem 0",
-          }}
-        >
-          <a
-            href="/"
-            aria-label="Home"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              color: "var(--body-color-highlighted)",
-            }}
-          >
+        {/* header — avatar and name share one line with the meta links */}
+        <header className="site-header">
+          <div className="site-header-id">
             <img
+              className="site-header-avatar"
               src={picture}
               alt="Kuldeep"
-              style={{
-                width: 45,
-                height: 45,
-                borderRadius: "50%",
-                objectFit: "cover",
-              }}
+              draggable={false}
             />
-          </a>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-            <Link to="/writings" className="header-link">
-              Writings
-            </Link>
+            <ScrambleText
+              as="h1"
+              onLoad
+              style={{
+                fontSize: "1.05rem",
+                fontWeight: 500,
+                lineHeight: 1,
+                color: "var(--body-color-highlighted)",
+              }}
+            >
+              Kuldeep
+            </ScrambleText>
+          </div>
+          <div className="site-header-meta">
+            <a
+              href={RESUME_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="header-link"
+            >
+              Resume
+            </a>
             <span className="header-dot" aria-hidden="true">
               ·
             </span>
@@ -188,83 +148,18 @@ export default function App() {
         </header>
 
         {/* intro */}
-        <Section delay={0.1}>
-          <ScrambleText
-            as="h1"
-            onLoad
-            style={{
-              fontSize: "1.125rem",
-              fontWeight: 500,
-              lineHeight: 1,
-              color: "var(--body-color-highlighted)",
-            }}
-          >
-            Kuldeep Yadav
-          </ScrambleText>
-          <p style={{ color: "var(--body-color)" }}>
-            I am builder. professional starter of side projects. I enjoy
-            creating products from the ground up and have a soft spot for
-            entrepreneurship & science fiction stuff and a gym goer.
+        <Section delay={0.1} gap="1rem">
+          <p className="intro-bio">
+            Engineer with taste. Obsessed with building things from zero to one
+            and beyond.
           </p>
           <Spotify theme={theme} />
         </Section>
 
         <Separator />
 
-        {/* highlights */}
-        <Section delay={0.2}>
-          <SectionHeading>Highlights</SectionHeading>
-          <ul className="arrow-list">
-            <li>Founding engineer at an early-stage fintech startup</li>
-            <li>
-              Building products at{" "}
-              <InlineLink href="https://kim.cc">Kim.cc</InlineLink> from ground
-              up.
-            </li>
-            <li>Experimenting with AI tooling and misc side products</li>
-            <li>
-              Download my <InlineLink href={RESUME_URL}>resume</InlineLink>
-            </li>
-          </ul>
-        </Section>
-
-        <Separator />
-
-        {/* writings */}
-        {latestWritings.length > 0 && (
-          <>
-            <Section delay={0.45}>
-              <SectionHeading>Writings</SectionHeading>
-              <div
-                style={{
-                  marginTop: "0.25rem",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                {latestWritings.map((w) => (
-                  <Link
-                    key={w.slug}
-                    to={`/writings/${w.slug}`}
-                    state={{ from: "home" }}
-                    className="writing-row writing-row--compact"
-                  >
-                    <span className="writing-title">{w.title}</span>
-                    <span className="writing-date">{formatMonth(w.date)}</span>
-                  </Link>
-                ))}
-                <Link to="/writings" className="writing-view-all">
-                  view all →
-                </Link>
-              </div>
-            </Section>
-
-            <Separator />
-          </>
-        )}
-
         {/* work life */}
-        <Section delay={0.3}>
+        <Section delay={0.2}>
           <SectionHeading>Work Life</SectionHeading>
           <div style={{ marginLeft: -8 }}>
             {workHistory.map((w) => (
@@ -295,9 +190,44 @@ export default function App() {
 
         <Separator />
 
+        {/* writings */}
+        {latestWritings.length > 0 && (
+          <>
+            <Section delay={0.3}>
+              <SectionHeading>Writings</SectionHeading>
+              <div
+                style={{
+                  marginTop: "0.25rem",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {latestWritings.map((w) => (
+                  <Link
+                    key={w.slug}
+                    to={`/writings/${w.slug}`}
+                    state={{ from: "home" }}
+                    className="writing-row writing-row--compact"
+                  >
+                    <span className="writing-title">{w.title}</span>
+                    <span className="writing-date">{formatMonth(w.date)}</span>
+                  </Link>
+                ))}
+                {allWritings.length > latestWritings.length && (
+                  <Link to="/writings" className="writing-view-all">
+                    view all →
+                  </Link>
+                )}
+              </div>
+            </Section>
+
+            <Separator />
+          </>
+        )}
+
         {/* side quests */}
         <Section delay={0.4}>
-          <SectionHeading>Side Quests</SectionHeading>
+          <SectionHeading>Playground</SectionHeading>
           <div className="projects-grid">
             {projects.map((p) => (
               <a
@@ -318,10 +248,10 @@ export default function App() {
 
         <Separator />
 
-        {/* other activities */}
+        {/* about me */}
         <Section delay={0.5}>
-          <SectionHeading>Other Activities</SectionHeading>
-          <p style={{ color: "var(--body-color)", marginTop: "0.25rem" }}>
+          <SectionHeading>About Me</SectionHeading>
+          <p style={{ color: "var(--body-color)" }}>
             Beyond work, I like to read about startups, finance, new cool tech,
             random article on medium. You&apos;ll occasionally find me watching
             travel vlogs for my next solo trip or doing pull-ups at gym. and yes

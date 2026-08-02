@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from "./App.jsx";
+import About from "./pages/About.jsx";
 import WritingsList from "./pages/WritingsList.jsx";
 import WritingPost from "./pages/WritingPost.jsx";
 import "./index.css";
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/about" element={<About />} />
         <Route path="/writings" element={<WritingsList />} />
         <Route path="/writings/:slug" element={<WritingPost />} />
       </Routes>

@@ -1,11 +1,3 @@
-@font-face {
-  font-family: 'Geist';
-  src: url('/fonts/Geist-Variable.woff2') format('woff2');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -67,10 +59,10 @@ body {
 }
 
 body {
-  font-family: 'Geist', system-ui, -apple-system, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 0.95rem;
-  line-height: 1.8;
-  font-weight: 300;
+  line-height: 1.65;
+  font-weight: 400;
   letter-spacing: -0.01em;
   color: var(--body-color);
   text-rendering: optimizeLegibility;
@@ -101,7 +93,7 @@ a, button {
   padding: 7.5rem 1.5rem 16rem;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 1.5rem;
 }
 
 @media (max-width: 600px) {
@@ -110,7 +102,7 @@ a, button {
     padding-bottom: 10rem;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
-    gap: 2rem;
+    gap: 1.25rem;
   }
 }
 
@@ -476,24 +468,69 @@ a.inline-link:focus-visible::after,
 .spotify-card {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: 8px;
+  gap: 11px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 10px;
   border: 1px solid var(--border-color);
   background-color: color-mix(in srgb, var(--bg-color) 20%, transparent);
-  max-width: 320px;
   text-decoration: none;
   transition: background-color 0.15s ease;
 }
 
-@media (max-width: 600px) {
-  .spotify-card {
-    max-width: 100%;
-  }
-}
-
 .spotify-card:hover {
   background-color: color-mix(in srgb, var(--bg-color) 40%, transparent);
+}
+
+.spotify-art {
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  display: block;
+}
+
+.spotify-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.spotify-title,
+.spotify-artist {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.35;
+}
+
+.spotify-title {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--body-color-highlighted);
+}
+
+.spotify-artist {
+  font-size: 0.75rem;
+  color: var(--body-color-faded);
+}
+
+/* Status sits flush right, so the equaliser reads as an anchor, not a stray. */
+.spotify-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  color: var(--body-color-faded);
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 420px) {
+  .spotify-status span {
+    display: none;
+  }
 }
 
 .spotify-card img {
@@ -586,6 +623,52 @@ a.inline-link:focus-visible::after,
 .header-dot {
   color: var(--body-color-faded);
   font-size: 0.78rem;
+}
+
+/* Ticking IST clock — monospace so the seconds don't jitter the layout. */
+.header-time {
+  color: var(--body-color-faded);
+  font-family: monospace;
+  font-size: 0.72rem;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Site header (avatar + name on one line) ─── */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  padding: 0.5rem 0 0;
+}
+
+.site-header-id {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.site-header-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.site-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-shrink: 0;
+}
+
+.intro-bio {
+  color: var(--body-color);
+  line-height: 1.4;
 }
 
 /* ─── Writing rows (homepage + list page) ─── */
