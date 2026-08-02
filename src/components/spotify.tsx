@@ -38,136 +38,34 @@ function formatTime(uts: string): string {
 
 function Equaliser() {
   return (
-    <div style={{ display: "flex", alignItems: "flex-end", height: 18, gap: 2 }}>
+    <div style={{ display: "flex", alignItems: "flex-end", height: 12, gap: 2 }}>
       {(["eq1 0.9s", "eq2 0.7s", "eq3 1.1s"] as const).map((anim, i) => (
-        <div key={i} style={{ width: 3, borderRadius: 2, background: "#1DB954", animation: `${anim} ease-in-out infinite` }} />
+        <div key={i} style={{ width: 2, borderRadius: 2, background: "#1DB954", animation: `${anim} ease-in-out infinite` }} />
       ))}
     </div>
   );
 }
 
-function LiveDot() {
-  return (
-    <div style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.7)", animation: "pulse-dot 1.4s ease-in-out infinite", flexShrink: 0 }} />
-  );
-}
-
 // ─── main component ───────────────────────────────────────────────────────────
 
-function SpotifyWidget({
-  track,
-  theme,
-}: {
-  track: Track;
-  theme: "light" | "dark";
-}) {
-  const dark = theme === "dark";
-
-  const card = {
-    background: dark ? "#1e1e1e" : "#ffffff",
-    border: dark
-      ? "0.5px solid rgba(255,255,255,0.08)"
-      : "0.5px solid rgba(0,0,0,0.1)",
-    borderRadius: 12,
-    overflow: "hidden",
-    width: "100%",
-  } as const;
-
-  const titleColor = dark ? "#f0f0f0" : "#111111";
-  const artistColor = dark ? "#666666" : "#888888";
-  const timeColor = dark ? "#444444" : "#bbbbbb";
-
-  const footerLive = {
-    background: "#1DB954",
-    color: "#ffffff",
-  };
-  const footerPast = dark
-    ? {
-        background: "#181818",
-        borderTop: "0.5px solid rgba(255,255,255,0.05)",
-        color: "#555555",
-      }
-    : { background: "#f0f0f0", color: "#999999" };
-
+function SpotifyWidget({ track }: { track: Track }) {
   return (
-    <div style={card}>
-      {/* top section */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          padding: "12px 14px",
-        }}
-      >
-        <img
-          src={track.albumArt}
-          alt={track.title}
-          width={44}
-          height={44}
-          style={{
-            borderRadius: 8,
-            objectFit: "cover",
-            flexShrink: 0,
-            display: "block",
-          }}
-        />
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div
-            style={{
-              fontSize: 14,
-              fontWeight: 500,
-              color: titleColor,
-              lineHeight: 1.3,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {track.title}
-          </div>
-          <div
-            style={{
-              fontSize: 12,
-              color: artistColor,
-              lineHeight: 1.3,
-              marginTop: 2,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {track.artist}
-          </div>
-        </div>
-        {track.nowPlaying && <Equaliser />}
+    <div className="spotify-card">
+      <img
+        className="spotify-art"
+        src={track.albumArt}
+        alt={track.title}
+        width={38}
+        height={38}
+        draggable={false}
+      />
+      <div className="spotify-text">
+        <span className="spotify-title">{track.title}</span>
+        <span className="spotify-artist">{track.artist}</span>
       </div>
-
-      {/* footer strip */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: track.nowPlaying ? "flex-start" : "space-between",
-          flexWrap: "wrap",
-          gap: "2px 6px",
-          padding: "5px 14px",
-          fontSize: 11,
-          fontWeight: 500,
-          ...(track.nowPlaying ? footerLive : footerPast),
-        }}
-      >
-        {track.nowPlaying ? (
-          <>
-            <LiveDot />
-            <span>Now playing on Spotify</span>
-          </>
-        ) : (
-          <>
-            <span>Last played on Spotify</span>
-            <span style={{ opacity: 0.7 }}>{track.lastPlayedTime}</span>
-          </>
-        )}
+      <div className="spotify-status">
+        <span>{track.nowPlaying ? "Now playing" : track.lastPlayedTime}</span>
+        {track.nowPlaying ? <Equaliser /> : null}
       </div>
     </div>
   );
@@ -176,58 +74,25 @@ function SpotifyWidget({
 // ─── skeleton ─────────────────────────────────────────────────────────────────
 
 function Skeleton({ theme }: { theme: "light" | "dark" }) {
-  const dark = theme === "dark";
-  const bg = dark ? "#1e1e1e" : "#ffffff";
-  const bone = dark ? "#2a2a2a" : "#f0f0f0";
+  const bone = theme === "dark" ? "#2a2a2a" : "#f0f0f0";
   return (
-    <div
-      style={{
-        background: bg,
-        border: dark
-          ? "0.5px solid rgba(255,255,255,0.08)"
-          : "0.5px solid rgba(0,0,0,0.1)",
-        borderRadius: 12,
-        overflow: "hidden",
-      }}
-    >
+    <div className="spotify-card">
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          padding: "12px 14px",
-        }}
-      >
+        className="spotify-art"
+        style={{ width: 38, height: 38, background: bone }}
+      />
+      <div className="spotify-text">
         <div
           style={{
-            width: 44,
-            height: 44,
-            borderRadius: 8,
+            height: 10,
+            width: "45%",
+            borderRadius: 4,
             background: bone,
-            flexShrink: 0,
+            marginBottom: 6,
           }}
         />
-        <div style={{ flex: 1 }}>
-          <div
-            style={{
-              height: 12,
-              width: "55%",
-              borderRadius: 4,
-              background: bone,
-              marginBottom: 8,
-            }}
-          />
-          <div
-            style={{
-              height: 10,
-              width: "35%",
-              borderRadius: 4,
-              background: bone,
-            }}
-          />
-        </div>
+        <div style={{ height: 9, width: "30%", borderRadius: 4, background: bone }} />
       </div>
-      <div style={{ height: 28, background: bone }} />
     </div>
   );
 }
@@ -262,5 +127,5 @@ export default function Spotify({
   if (loading) return <Skeleton theme={theme} />;
   if (!track) return null;
 
-  return <SpotifyWidget track={track} theme={theme} />;
+  return <SpotifyWidget track={track} />;
 }
