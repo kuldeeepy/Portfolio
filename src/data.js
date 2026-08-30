@@ -1,37 +1,66 @@
-import p2 from "./assets/project_two.webp";
-import p3 from "./assets/project_three.png";
-import p4 from "./assets/project_four.png";
-import p5 from "./assets/project_five.webp";
-import iconMoney from "./assets/icon_money.svg";
-import iconAlgo  from "./assets/icon_algo.svg";
+export const RESUME_URL   = "https://drive.google.com/file/d/1tfRMitzGzOLEaxzvIIhUwNHoEAIY3pY5/view?usp=sharing";
 
-export const RESUME_URL   = import.meta.env.VITE_RESUME;
-export const X_URL        = import.meta.env.VITE_X;
-export const GIT_URL      = import.meta.env.VITE_GIT;
-export const LINKEDIN_URL = import.meta.env.VITE_LINKEDIN;
-export const LEETCODE_URL = import.meta.env.VITE_LEETCODE;
+// Public URLs — hardcoded on purpose. As env vars these silently rendered as
+// text with no href whenever a var was missing, which is what happened in
+// production: the four social vars were never set on Vercel.
+export const X_URL        = "https://x.com/iamkuldeepY";
+export const GIT_URL      = "https://github.com/kuldeeepy";
+export const LINKEDIN_URL = "https://www.linkedin.com/in/kuldeeep-yadav/";
+export const LEETCODE_URL = "https://leetcode.com/u/kuldeeepy/";
 
+// Order here is the order on the page — newest isn't automatically best.
+// `demo` is optional; a row with only `code` just renders one link.
+// Four that get the real estate. Order here is the order on the page.
 export const projects = [
-  { img: p2,         name: "AI Assistant",   url: import.meta.env.VITE_URL2 },
-  { img: p3,         name: "Speech Rec",     url: import.meta.env.VITE_URL3 },
-  { img: p4,         name: "Social Net",     url: import.meta.env.VITE_URL4 },
-  { img: p5,         name: "Movie-X",        url: import.meta.env.VITE_URL5 },
-  { img: iconMoney,  name: "Money Tracker",  url: "https://github.com/kuldeeepy/money-tracker" },
-  { img: iconAlgo,   name: "Algo Trader",    url: "https://github.com/kuldeeepy/algo-trader"   },
+  {
+    name: "checkout-copilot",
+    short: "Turns plain English into payment API calls.",
+    demo: "https://checkout-copilot.vercel.app",
+    code: "https://github.com/kuldeeepy/checkout-copilot",
+  },
+  {
+    name: "algo-trader",
+    short: "Backtests trading strategies.",
+    code: "https://github.com/kuldeeepy/algo-trader",
+  },
+  {
+    // Repo is private, so this one is demo-only until it's published.
+    name: "adscan",
+    short: "The ads are spending. Is anything counting?",
+    demo: "https://adscan-beta.vercel.app",
+  },
+  {
+    name: "diet-plate",
+    short: "Plans a week of meals.",
+    code: "https://github.com/kuldeeepy/diet-plate",
+  },
+];
+
+// Smaller things. These get thrown into the physics canvas — drag them around.
+// Live demo where one exists, repo otherwise.
+export const playground = [
+  { name: "first-mcp-server", url: "https://github.com/kuldeeepy/first-mcp-server" },
+  { name: "simple-app-aws",   url: "https://github.com/kuldeeepy/simple-app-aws" },
+  { name: "money-tracker",    url: "https://github.com/kuldeeepy/money-tracker" },
+  { name: "e-commerce-cicd",  url: "https://github.com/kuldeeepy/e-commerce-cicd" },
+  { name: "github-activity",  url: "https://github.com/kuldeeepy/github-activity" },
+  { name: "OpenBook",         url: "https://openbook-org.vercel.app" },
 ];
 
 export const workHistory = [
   {
     role: "Software Engineer",
     company: "Kim.cc",
-    year: "Now",
+    from: "2024",
+    to: "Now",
     link: "https://kim.cc",
     favicon: "https://www.google.com/s2/favicons?domain=kim.cc&sz=32",
   },
   {
     role: "Founding Engineer",
     company: "Go CrossPay",
-    year: "2023",
+    from: "2023",
+    to: "2024",
     link: "https://www.gocrosspe.com",
     favicon: "https://www.google.com/s2/favicons?domain=gocrosspe.com&sz=32",
   },
