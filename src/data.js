@@ -1,3 +1,8 @@
+import shotCheckout from "./assets/shots/checkout-copilot.webp";
+import shotAlgo from "./assets/shots/algo-trader.webp";
+import shotAdscan from "./assets/shots/adscan.webp";
+import shotDiet from "./assets/shots/diet-plate.webp";
+
 export const RESUME_URL   = "https://drive.google.com/file/d/1tfRMitzGzOLEaxzvIIhUwNHoEAIY3pY5/view?usp=sharing";
 
 // Public URLs — hardcoded on purpose. As env vars these silently rendered as
@@ -13,24 +18,28 @@ export const LEETCODE_URL = "https://leetcode.com/u/kuldeeepy/";
 // Four that get the real estate. Order here is the order on the page.
 export const projects = [
   {
-    name: "checkout-copilot",
+    name: "checkout copilot",
+    shot: shotCheckout,
     short: "Turns plain English into payment API calls.",
     demo: "https://checkout-copilot.vercel.app",
     code: "https://github.com/kuldeeepy/checkout-copilot",
   },
   {
-    name: "algo-trader",
-    short: "Backtests trading strategies.",
+    name: "algo trader",
+    shot: shotAlgo,
+    short: "Backtests intraday strategies.",
     code: "https://github.com/kuldeeepy/algo-trader",
   },
   {
     // Repo is private, so this one is demo-only until it's published.
     name: "adscan",
+    shot: shotAdscan,
     short: "The ads are spending. Is anything counting?",
     demo: "https://adscan-beta.vercel.app",
   },
   {
-    name: "diet-plate",
+    name: "diet plate",
+    shot: shotDiet,
     short: "Plans a week of meals.",
     code: "https://github.com/kuldeeepy/diet-plate",
   },

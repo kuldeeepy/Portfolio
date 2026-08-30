@@ -151,8 +151,8 @@ export default function App() {
         {/* intro */}
         <Section delay={0.1} gap="1rem">
           <p className="intro-bio">
-            Engineer with taste. Obsessed with building things from zero to one
-            and beyond.
+            Software engineer. I build things end to end and write about how
+            they work.
           </p>
           <Spotify theme={theme} />
         </Section>
@@ -221,36 +221,32 @@ export default function App() {
         {/* projects — four that get the real estate */}
         <Section delay={0.4}>
           <SectionHeading>Projects</SectionHeading>
-          <div className="proj-list">
+          <div className="proj-grid">
             {projects.map((p, i) => (
-              <div key={p.name} className="proj-row">
-                <span className="proj-index" aria-hidden="true">
-                  {String(i + 1).padStart(2, "0")}
+              <a
+                key={p.name}
+                href={p.demo || p.code}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="proj-card"
+              >
+                <span className="proj-shot">
+                  <img src={p.shot} alt="" loading="lazy" draggable={false} />
                 </span>
-                <a
-                  href={p.demo || p.code}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="proj-name"
-                >
-                  {p.name}
-                </a>
-                <ScrambleText as="span" onLoad={false} className="proj-short">
-                  {p.short}
-                </ScrambleText>
-                <span className="proj-links">
-                  {p.demo && (
-                    <a href={p.demo} target="_blank" rel="noopener noreferrer" className="proj-link">
-                      demo
-                    </a>
-                  )}
-                  {p.code && (
-                    <a href={p.code} target="_blank" rel="noopener noreferrer" className="proj-link">
-                      code
-                    </a>
-                  )}
+                <span className="proj-card-body">
+                  <span className="proj-card-top">
+                    <span className="proj-index">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="proj-name">{p.name}</span>
+                    <span className="proj-links">
+                      {p.demo && <span className="proj-link">demo</span>}
+                      {p.code && <span className="proj-link">code</span>}
+                    </span>
+                  </span>
+                  <span className="proj-short">{p.short}</span>
                 </span>
-              </div>
+              </a>
             ))}
           </div>
         </Section>
