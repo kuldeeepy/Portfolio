@@ -4,7 +4,7 @@ const GLYPHS = "ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙ0
 const glyph = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)] ?? "";
 const makeChars = (t) => t.split("").map(() => ({ c1: glyph(), c2: glyph(), c3: glyph() }));
 
-export default function ScrambleText({ children, as: Tag = "h2", onLoad = true, style }) {
+export default function ScrambleText({ children, as: Tag = "h2", onLoad = true, style, className }) {
   const [chars] = useState(() => makeChars(children));
 
   const retrigger = (e) => {
@@ -21,7 +21,7 @@ export default function ScrambleText({ children, as: Tag = "h2", onLoad = true, 
   };
 
   return (
-    <Tag onMouseEnter={retrigger} style={{ cursor: "default", ...style }}>
+    <Tag onMouseEnter={retrigger} className={className} style={{ cursor: "default", ...style }}>
       <span data-scramble className={onLoad ? "scramble" : ""} aria-hidden>
         {children.split("").map((char, i) => (
           <span

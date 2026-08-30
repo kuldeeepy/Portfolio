@@ -186,5 +186,44 @@ This is useful when the server needs to be hosted remotely and accessed by multi
 
 Instead of every AI application inventing its own way to talk to every service, an mcp server can expose those capabilities through a standardized interface.
 
+### Enough Theory, Let's Build One
+
+So I wrote the smallest mcp server to learn about it. Only one tool, about 35 lines, no build step. It's literally the weather example we've been using.
+
+```ts
+server.registerTool(
+  "getCityWeather",
+  {
+    description: "Fetch the current weather for a city",
+    inputSchema: {
+      name: z.string().describe("City name, e.g. Delhi"),
+    },
+  },
+  async ({ name }) => {
+    const city = name.toLowerCase();
+    return {
+      content: [
+        { type: "text", text: weather[city] ?? "Unknown city" },
+      ],
+    };
+  },
+);
+```
+
+That's the whole tool. The weather itself is a hardcoded map of three cities, and
+that's on purpose, swap it for a real API call and nothing else about the server
+changes. The protocol doesn't care where your data comes from.
+
+Two things here matter way more than they look: the `description` and the
+`inputSchema`. That's the only thing the model reads when it's deciding whether
+your tool is relevant to the question. Write a vague description and your tool
+just never gets called. it sits there. nobody calls it. kinda sad tbh.
+
+The rest is three lines to connect it over stdio, then you point your
+`claude_desktop_config.json` at the file, restart, and ask it about the weather
+in Delhi.
+
+Code's here if you want to run it → [first-mcp-server](https://github.com/kuldeeepy/first-mcp-server)
+
 
 In nutshell it's simply a protocol for connecting AI applications to external capabilities.

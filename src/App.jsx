@@ -8,9 +8,10 @@ import SocialIcon from "./components/SocialIcon";
 import WorkIcon from "./components/WorkIcon";
 import Footer from "./components/Footer";
 import PreviewLink from "./components/PreviewLink";
+import PlaygroundCanvas from "./components/PlaygroundCanvas";
 import useTheme from "./useTheme";
 
-import { projects, workHistory, connectLinks, RESUME_URL } from "./data";
+import { projects, playground, workHistory, connectLinks, RESUME_URL } from "./data";
 import { getAllWritings, formatMonth } from "./writings";
 import picture from "./assets/kuldeep2.webp";
 import billu from "./assets/billu.webp";
@@ -150,8 +151,8 @@ export default function App() {
         {/* intro */}
         <Section delay={0.1} gap="1rem">
           <p className="intro-bio">
-            Engineer with taste. Obsessed with building things from zero to one
-            and beyond.
+            Software engineer. I build things end to end and write about how
+            they work.
           </p>
           <Spotify theme={theme} />
         </Section>
@@ -172,16 +173,8 @@ export default function App() {
               >
                 <WorkIcon favicon={w.favicon} letter={w.company[0]} />
                 <span>{w.role}</span>
-                <span className="list-row-company">{w.company}</span>
-                <span
-                  style={{
-                    textAlign: "right",
-                    fontFamily: "monospace",
-                    fontSize: "0.75rem",
-                    letterSpacing: "-0.03em",
-                  }}
-                >
-                  {w.year}
+                <span className="list-row-years">
+                  {w.from} &ndash; {w.to}
                 </span>
               </a>
             ))}
@@ -225,25 +218,48 @@ export default function App() {
           </>
         )}
 
-        {/* side quests */}
+        {/* projects — four that get the real estate */}
         <Section delay={0.4}>
-          <SectionHeading>Playground</SectionHeading>
-          <div className="projects-grid">
-            {projects.map((p) => (
+          <SectionHeading>Projects</SectionHeading>
+          <div className="proj-grid">
+            {projects.map((p, i) => (
               <a
                 key={p.name}
-                href={p.url}
+                href={p.demo || p.code}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="project-app"
+                className="proj-card"
               >
-                <div className="project-app-icon">
-                  <img src={p.img} alt={p.name} draggable={false} />
-                </div>
-                <span className="project-app-label">{p.name}</span>
+                <span className="proj-shot">
+                  <img src={p.shot} alt="" loading="lazy" draggable={false} />
+                </span>
+                <span className="proj-card-body">
+                  <span className="proj-card-top">
+                    <span className="proj-index">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="proj-name">{p.name}</span>
+                    <span className="proj-links">
+                      {p.demo && <span className="proj-link">demo</span>}
+                      {p.code && <span className="proj-link">code</span>}
+                    </span>
+                  </span>
+                  <span className="proj-short">{p.short}</span>
+                </span>
               </a>
             ))}
           </div>
+        </Section>
+
+        <Separator />
+
+        {/* playground — small things, thrown into the physics canvas */}
+        <Section delay={0.45}>
+          <div className="pg-head">
+            <SectionHeading>Playground</SectionHeading>
+            <span className="pg-hint">drag them around</span>
+          </div>
+          <PlaygroundCanvas items={playground} theme={theme} />
         </Section>
 
         <Separator />
