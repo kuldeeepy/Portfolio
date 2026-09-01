@@ -174,7 +174,7 @@ export default function App() {
                 <WorkIcon favicon={w.favicon} letter={w.company[0]} />
                 <span>{w.role}</span>
                 <span className="list-row-years">
-                  {w.from} &ndash; {w.to}
+                  {w.from === w.to ? w.from : `${w.from} – ${w.to}`}
                 </span>
               </a>
             ))}

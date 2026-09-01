@@ -3,7 +3,12 @@ import shotAlgo from "./assets/shots/algo-trader.webp";
 import shotAdscan from "./assets/shots/adscan.webp";
 import shotDiet from "./assets/shots/diet-plate.webp";
 
-export const RESUME_URL   = "https://drive.google.com/file/d/1tfRMitzGzOLEaxzvIIhUwNHoEAIY3pY5/view?usp=sharing";
+// Overridable from Vercel so a new resume upload needs no code change.
+// The literal is a fallback, not a placeholder: if the env var is missing the
+// link still works. Leaving it env-only is what left the social links dead.
+export const RESUME_URL   =
+  import.meta.env.VITE_RESUME ||
+  "https://drive.google.com/file/d/1LH8oKJOWPuqB60mUY-BRbiw2LUf76K0L/view?usp=sharing";
 
 // Public URLs — hardcoded on purpose. As env vars these silently rendered as
 // text with no href whenever a var was missing, which is what happened in
@@ -68,7 +73,7 @@ export const workHistory = [
   {
     role: "Founding Engineer",
     company: "Go CrossPay",
-    from: "2023",
+    from: "2024",
     to: "2024",
     link: "https://www.gocrosspe.com",
     favicon: "https://www.google.com/s2/favicons?domain=gocrosspe.com&sz=32",
