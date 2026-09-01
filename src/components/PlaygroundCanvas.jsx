@@ -112,6 +112,7 @@ export default function PlaygroundCanvas({ items, theme }) {
           key={p.name}
           ref={(el) => (pillRefs.current[i] = el)}
           className="pg-pill"
+          draggable={false}
           href={p.url}
           target="_blank"
           rel="noopener noreferrer"

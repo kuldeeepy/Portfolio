@@ -29,3 +29,24 @@ export const getLastSong = async () => {
     return { success: false };
   }
 };
+
+
+// GitHub contribution calendar. jogruber's mirror is public and token-free —
+// GitHub's own contributions data is GraphQL-only and needs a PAT, which a
+// static frontend can't hold.
+export const getContributions = async (user) => {
+  try {
+    const resp = await fetch(
+      `https://github-contributions-api.jogruber.de/v4/${user}?y=last`,
+    );
+    const data = await resp.json();
+    if (!Array.isArray(data.contributions)) return { success: false };
+    return {
+      success: true,
+      total: data.total?.lastYear ?? 0,
+      days: data.contributions,
+    };
+  } catch {
+    return { success: false };
+  }
+};

@@ -2,19 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Already vendored in public/fonts and never wired up. One variable file
+   covers every weight, so this costs one request we were shipping anyway. */
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Variable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --colors-gray0: #ffffff;
-  --colors-gray50: #f8fafc;
-  --colors-gray100: #f1f5f9;
-  --colors-gray200: #e2e8f0;
-  --colors-gray300: #cbd5e1;
-  --colors-gray400: #94a3b8;
-  --colors-gray500: #64748b;
-  --colors-gray600: #475569;
-  --colors-gray700: #334155;
-  --colors-gray800: #1e293b;
-  --colors-gray900: #0f172a;
-  --colors-gray950: #020617;
+  --colors-gray50: #fafafa;
+  --colors-gray100: #f5f5f5;
+  --colors-gray200: #e5e5e5;
+  --colors-gray300: #d4d4d4;
+  --colors-gray400: #a3a3a3;
+  --colors-gray500: #737373;
+  --colors-gray600: #525252;
+  --colors-gray700: #404040;
+  --colors-gray800: #262626;
+  --colors-gray900: #171717;
+  --colors-gray950: #0b0b0b;
   --colors-gray1000: #000;
 
   --logo-gh: #333333;
@@ -22,30 +32,48 @@
   --logo-in: #4875b4;
   --logo-lc: #ffa116;
 
-  --bg-color: var(--colors-gray300);
+  --bg-color: var(--colors-gray200);
   --bg-highlighted: var(--colors-gray0);
-  --body-color: var(--colors-gray900);
-  --body-color-faded: var(--colors-gray500);
-  --body-color-highlighted: var(--colors-gray1000);
+  --body-color: var(--colors-gray500);
+  --body-color-faded: var(--colors-gray400);
+  --body-color-highlighted: var(--colors-gray950);
   --border-color: var(--colors-gray200);
   --link-color: var(--colors-gray900);
   --link-color-hover: var(--colors-gray1000);
   --panel: white;
-  --accent: #4d7c0f;
+  --accent: #0284c7;
+  --disc-hub: rgba(0, 0, 0, 0.2);
+  --disc-rim: conic-gradient(
+    from 210deg,
+    rgba(0, 0, 0, 0.04),
+    rgba(0, 0, 0, 0.26) 22%,
+    rgba(0, 0, 0, 0.05) 44%,
+    rgba(0, 0, 0, 0.2) 68%,
+    rgba(0, 0, 0, 0.04)
+  );
 }
 
 [data-theme="dark"] {
   --logo-gh: #ffffff;
   --bg-color: var(--colors-gray900);
-  --bg-highlighted: var(--colors-gray1000);
-  --body-color: var(--colors-gray300);
+  --bg-highlighted: var(--colors-gray950);
+  --body-color: var(--colors-gray400);
   --body-color-faded: var(--colors-gray500);
-  --body-color-highlighted: var(--colors-gray0);
+  --body-color-highlighted: #ededed;
   --border-color: var(--colors-gray800);
   --link-color: var(--colors-gray300);
   --link-color-hover: var(--colors-gray0);
   --panel: var(--colors-gray950);
-  --accent: #a3e635;
+  --accent: #38bdf8;
+  --disc-hub: rgba(255, 255, 255, 0.34);
+  --disc-rim: conic-gradient(
+    from 210deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.5) 22%,
+    rgba(255, 255, 255, 0.09) 44%,
+    rgba(255, 255, 255, 0.36) 68%,
+    rgba(255, 255, 255, 0.05)
+  );
 }
 
 *,
@@ -61,11 +89,10 @@ body {
 }
 
 body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 0.95rem;
-  line-height: 1.65;
+  font-family: "Geist", 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
   font-weight: 400;
-  letter-spacing: -0.01em;
   color: var(--body-color);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -90,21 +117,20 @@ a, button {
 /* ─── Page container ─── */
 .page-main {
   width: 100%;
-  max-width: 560px;
+  max-width: 700px;
   margin: 0 auto;
-  padding: 7.5rem 1.5rem 16rem;
+  padding: 3.5rem 2rem 16rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2.5rem;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .page-main {
-    padding-top: 5rem;
+    padding-top: 2rem;
     padding-bottom: 10rem;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
-    gap: 1.25rem;
   }
 }
 
@@ -173,72 +199,67 @@ a, button {
   80%      { content: var(--char-3); }
 }
 
-/* ─── List row (work life) ─── */
-.list-row {
+/* ─── Work rows ─── */
+.work-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.35rem;
+  margin-left: -8px;
+}
+
+.work-row {
   display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
   align-items: center;
-  width: 100%;
-  padding: 4px 8px;
-  gap: 16px;
-  border-radius: 6px;
-  transition: background-color 0.15s ease-out, color 0.15s ease-out;
-  color: var(--body-color-faded);
-  grid-template-columns: 20px 1fr auto;
-  font-size: 0.9em;
+  gap: 14px;
+  padding: 8px;
+  border-radius: 8px;
   text-decoration: none;
+  transition: background-color 0.15s ease-out;
 }
 
-.list-row:hover {
+.work-row:hover {
   background-color: color-mix(in srgb, var(--bg-color) 50%, transparent);
+}
+
+.work-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.work-company {
   color: var(--body-color-highlighted);
+  font-size: 0.9rem;
+  line-height: 1.3rem;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--body-color-faded) 45%, transparent);
+  text-underline-offset: 3px;
 }
 
-@media (max-width: 500px) {
-  .list-row {
-    gap: 10px;
-  }
+.work-row:hover .work-company {
+  text-decoration-color: var(--body-color-faded);
 }
 
-.list-row-years {
-  text-align: right;
-  font-family: monospace;
-  font-size: 0.75rem;
-  letter-spacing: -0.03em;
+.work-meta {
+  color: var(--body-color);
+  font-size: 0.8125rem;
+  line-height: 1.2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-/* ─── List row (connect) ─── */
-.list-row-connect {
-  display: grid;
-  align-items: center;
-  width: 100%;
-  padding: 4px 8px;
-  gap: 16px;
-  border-radius: 6px;
-  transition: background-color 0.15s ease-out, color 0.15s ease-out;
+.work-range {
   color: var(--body-color-faded);
-  grid-template-columns: 20px 110px 1fr;
-  font-size: 0.9em;
-  text-decoration: none;
+  font-size: 0.8125rem;
+  white-space: nowrap;
 }
 
-.list-row-connect:hover {
-  background-color: color-mix(in srgb, var(--bg-color) 50%, transparent);
-  color: var(--body-color-highlighted);
+@media (max-width: 520px) {
+  .work-row { gap: 11px; }
+  .work-range { font-size: 0.75rem; }
 }
-
-@media (max-width: 500px) {
-  .list-row-connect {
-    grid-template-columns: 20px 1fr auto;
-    gap: 10px;
-  }
-}
-
-/* Social brand hover */
-.list-row-connect.social-twitter:hover  { color: var(--logo-tw); }
-.list-row-connect.social-github:hover   { color: var(--logo-gh); }
-.list-row-connect.social-linkedin:hover { color: var(--logo-in); }
-.list-row-connect.social-leetcode:hover { color: var(--logo-lc); }
 
 /* ─── Arrow list (highlights) ─── */
 .arrow-list {
@@ -263,20 +284,31 @@ a, button {
 
 /* ─── Work icon container ─── */
 .work-icon-wrap {
+  width: 40px;
+  height: 40px;
   background: var(--colors-gray100);
+  border: 1px solid var(--border-color);
   overflow: hidden;
 }
 
 [data-theme="dark"] .work-icon-wrap {
-  background: var(--colors-gray700);
+  background: var(--colors-gray800);
 }
 
-.work-icon-wrap img {
+.work-icon-wrap.has-logo {
+  /* The Kim mark is an app icon that already carries its own rounded edge and
+     highlight, so any ring we add doubles up and reads as a halo on dark. */
+  background: transparent;
+  border: 0;
+}
+
+/* Favicons are flattened to sit quietly; a real brand logo is left alone. */
+.work-icon-wrap:not(.has-logo) img {
   filter: grayscale(100%);
   transition: filter 0.15s ease-out;
 }
 
-.list-row:hover .work-icon-wrap img {
+.work-row:hover .work-icon-wrap:not(.has-logo) img {
   filter: grayscale(0%);
 }
 
@@ -389,113 +421,462 @@ a.inline-link:focus-visible::after,
   }
 }
 
-/* ─── Projects (four heroes) ─── */
+/* ─── Project cards ─── */
+/* Measured off shashwa7.in: 2 columns, 10px gap, 84px-tall cards with an 80px
+   thumbnail, 12px body padding, 13px title, 11px description. */
 .proj-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 0.6rem;
+  gap: 10px;
+  margin-top: 0.35rem;
 }
 
 .proj-card {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 8px;
-  margin: -8px;
-  border-radius: 8px;
+  height: 84px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background-color: color-mix(in srgb, var(--bg-color) 30%, transparent);
+  overflow: hidden;
   text-decoration: none;
-  transition: background-color 0.18s ease-out;
+  transition: border-color 0.18s ease-out, background-color 0.18s ease-out;
 }
 
 .proj-card:hover {
+  border-color: color-mix(in srgb, var(--body-color-faded) 55%, transparent);
   background-color: color-mix(in srgb, var(--bg-color) 50%, transparent);
 }
 
-/* A band off the top of the project's real UI — recognisable at a glance
-   without four full screenshots turning the page into a scroll. */
 .proj-shot {
   display: block;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
+  flex-shrink: 0;
+  width: 80px;
   line-height: 0;
+  overflow: hidden;
 }
 
+/* Grey by default, colour on hover — his cards do this and it keeps four
+   thumbnails from competing with the text. */
 .proj-shot img {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 100%;
   object-fit: cover;
-  object-position: top center;
-  opacity: 0.75;
-  transition: opacity 0.2s ease-out;
+  object-position: top left;
+  /* Dimmed as well as greyed: his four screenshots are all dark, ours mixes
+     light and dark, and a white thumbnail next to three dark ones glares. */
+  filter: grayscale(100%);
+  opacity: 0.72;
+  transition: filter 0.22s ease-out, opacity 0.22s ease-out;
 }
 
-.proj-card:hover .proj-shot img { opacity: 1; }
+.proj-card:hover .proj-shot img { filter: grayscale(0%); opacity: 1; }
 
-.proj-card-body {
+.proj-body {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  flex: 1;
   min-width: 0;
+  padding: 12px;
 }
 
-.proj-card-top {
-  display: grid;
-  grid-template-columns: 20px minmax(0, 1fr) auto;
-  align-items: baseline;
-  gap: 8px;
+.proj-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-
-.proj-index {
-  font-family: monospace;
-  font-size: 0.68rem;
-  letter-spacing: -0.03em;
-  color: var(--body-color-faded);
-  opacity: 0.4;
-  transition: color 0.18s ease-out, opacity 0.18s ease-out;
-}
-
-.proj-card:hover .proj-index { color: var(--accent); opacity: 1; }
 
 .proj-name {
-  color: var(--body-color);
-  font-size: 0.88rem;
+  color: var(--body-color-highlighted);
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  font-weight: 500;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  transition: color 0.18s ease-out;
 }
 
-.proj-card:hover .proj-name { color: var(--body-color-highlighted); }
-
-.proj-short {
-  padding-left: 28px;
+.proj-tag {
+  flex-shrink: 0;
+  padding: 1px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
   color: var(--body-color-faded);
-  font-size: 0.8rem;
+  font-family: monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   line-height: 1.45;
 }
 
-.proj-links {
-  display: flex;
-  gap: 7px;
-  font-family: monospace;
-  font-size: 0.66rem;
-  letter-spacing: -0.03em;
-  white-space: nowrap;
+.proj-arrow {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  margin-left: auto;
   color: var(--body-color-faded);
-  opacity: 0;
-  transition: opacity 0.18s ease-out;
+  transition: transform 0.18s ease-out, color 0.18s ease-out;
 }
 
-.proj-card:hover .proj-links { opacity: 0.75; }
+.proj-card:hover .proj-arrow {
+  color: var(--body-color-highlighted);
+  transform: translate(2px, -2px);
+}
+
+.proj-short {
+  color: var(--body-color);
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  /* One line, like his — a second line is what pushed our cards past 84px. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.proj-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: auto;
+  padding-top: 4px;
+  font-family: monospace;
+  font-size: 0.625rem;
+  letter-spacing: -0.02em;
+  color: var(--body-color-faded);
+}
+
+.proj-card:hover .proj-foot { color: var(--body-color); }
 
 @media (max-width: 560px) {
-  .proj-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-  /* no hover on touch, so the links have to be visible */
-  .proj-links { opacity: 0.75; }
+  .proj-grid { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* ─── Open to work (annotation + CTA buttons) ─── */
+.cta-row {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Lives in the left margin, outside the content column, so the buttons stay
+   flush with everything else on the page. */
+.cta-note {
+  position: absolute;
+  right: 100%;
+  bottom: 50%;
+  margin-right: 10px;
+  margin-bottom: -10px;
+  display: block;
+  font-family: "Caveat", "Bradley Hand", "Segoe Script", cursive;
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--body-color-faded);
+  opacity: 0.7;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+}
+
+.cta-arrow {
+  display: block;
+  width: 57px;
+  height: 23px;
+  margin-left: auto;
+  margin-top: 2px;
+}
+
+/* ─── First-load entrance ─── */
+/* The button lands first, the words slide in beside it, then the arrow draws
+   itself toward the button — so the eye is already on the button when the
+   arrow points at it. */
+.cta-btn {
+  animation: cta-rise 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) 0.25s backwards;
+}
+
+.cta-note-text {
+  display: block;
+  animation: note-slide 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) 0.6s both;
+}
+
+/* 130 comfortably exceeds each sub-path's length, so nothing shows early. */
+.cta-arrow path {
+  stroke-dasharray: 130;
+  stroke-dashoffset: 130;
+  animation: arrow-draw 0.5s ease-out 1.05s forwards;
+}
+
+.cta-arrow .cta-arrow-head {
+  animation-delay: 1.4s;
+  animation-duration: 0.25s;
+}
+
+@keyframes cta-rise {
+  from { opacity: 0; transform: translateY(7px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes note-slide {
+  from { opacity: 0; transform: translateX(-28px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes arrow-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-btn,
+  .cta-btn::before,
+  .cta-btn::after,
+  .cta-note-text,
+  .cta-arrow path { animation: none; }
+  .cta-btn::before,
+  .cta-btn::after { opacity: 0; }
+  .cta-btn:hover { transform: none; }
+  .cta-arrow path { stroke-dashoffset: 0; }
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  gap: 7px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background-color: transparent;
+  color: var(--body-color-highlighted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+  transition: background-color 0.18s ease-out, color 0.18s ease-out,
+    border-color 0.18s ease-out, transform 0.18s ease-out,
+    box-shadow 0.18s ease-out;
+}
+
+.cta-btn svg {
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+
+/* A light travels once around the border on first load, then it's gone. Needs
+   a registered property — a raw custom property can't be interpolated. */
+@property --cta-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.cta-btn::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--cta-angle),
+    transparent 0deg,
+    var(--body-color-highlighted) 18deg,
+    transparent 54deg
+  );
+  /* Punch out the middle so only the 1px ring paints. */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: cta-sweep 1.5s ease-out 0.85s 1 both;
+}
+
+@keyframes cta-sweep {
+  from { --cta-angle: 0deg; opacity: 0; }
+  12%  { opacity: 0.9; }
+  85%  { opacity: 0.9; }
+  to   { --cta-angle: 360deg; opacity: 0; }
+}
+
+/* A second ring on ::after so hover can own its own sweep. Sharing ::before
+   would restart the intro animation every time the pointer left. */
+@property --cta-angle-2 {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.cta-btn::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  opacity: 0;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--cta-angle-2),
+    transparent 0deg,
+    var(--body-color-highlighted) 22deg,
+    transparent 62deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.cta-btn:hover::after,
+.cta-btn:focus-visible::after {
+  animation: cta-sweep-hover 0.9s ease-out 1 both;
+}
+
+@keyframes cta-sweep-hover {
+  from { --cta-angle-2: 0deg; opacity: 0.85; }
+  80%  { opacity: 0.85; }
+  to   { --cta-angle-2: 360deg; opacity: 0; }
+}
+
+.cta-btn:hover {
+  color: var(--body-color-highlighted);
+  border-color: var(--body-color-faded);
+  background-color: color-mix(in srgb, var(--bg-color) 45%, transparent);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.3);
+}
+
+.cta-btn:hover svg { transform: translateX(-1px); }
+
+.cta-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+
+/* The content column is 700px; below ~1040px there is no left margin left to
+   put the annotation in, so it goes rather than overlapping the text. */
+@media (max-width: 1040px) {
+  .cta-note { display: none; }
+}
+
+/* ─── Contribution graph ─── */
+.contrib {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 0.35rem;
+}
+
+/* Reserves the height before the fetch lands so nothing jumps. */
+.contrib-placeholder {
+  height: 118px;
+  margin-top: 0.35rem;
+}
+
+.contrib-scroll {
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.contrib-scroll::-webkit-scrollbar { display: none; }
+
+/* Columns flex so a full year fits the 560px column with no scrolling; the
+   min-width is the floor at which it starts scrolling instead of squashing. */
+.contrib-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--weeks), minmax(0, 1fr));
+  grid-template-rows: 16px repeat(7, auto);
+  gap: 3px;
+  width: 100%;
+  min-width: 460px;
+}
+
+.contrib-month {
+  grid-row: 1;
+  font-size: 0.75rem;
+  line-height: 1;
+  color: var(--body-color-faded);
+  white-space: nowrap;
+}
+
+.contrib-day {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  background-color: color-mix(in srgb, var(--body-color-faded) 18%, transparent);
+}
+
+.contrib-day[data-level="1"] { background-color: color-mix(in srgb, var(--body-color) 30%, transparent); }
+.contrib-day[data-level="2"] { background-color: color-mix(in srgb, var(--body-color) 50%, transparent); }
+.contrib-day[data-level="3"] { background-color: color-mix(in srgb, var(--body-color) 75%, transparent); }
+.contrib-day[data-level="4"] { background-color: var(--body-color-highlighted); }
+
+.contrib-total {
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  color: var(--body-color-faded);
+}
+
+/* ─── Icon links (header CV + footer social row) ─── */
+.icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 8px;
+  color: var(--body-color-faded);
+  text-decoration: none;
+  /* Matching his: transform-only motion, 150ms, and the press is the gesture
+     that carries it — a lift was my invention, not his. */
+  transition: color 0.15s ease-out, background-color 0.15s ease-out,
+    transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.icon-link:hover {
+  color: var(--body-color-highlighted);
+  background-color: color-mix(in srgb, var(--bg-color) 50%, transparent);
+  transform: scale(1.08);
+}
+
+.icon-link:active { transform: scale(0.97); }
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-link:hover,
+  .icon-link:active { transform: none; }
+}
+
+
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Centred in the row regardless of how long the visitor line renders. */
+/* Left-aligned under the avatar, not centred — it reads as part of the
+   profile block rather than as a separate footer strip. */
+.social-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin: -1.95rem 0 -1.6rem -6px;
+}
+
+
+
+.icon-link.social-twitter:hover  { color: var(--logo-tw); }
+.icon-link.social-github:hover   { color: var(--logo-gh); }
+.icon-link.social-linkedin:hover { color: var(--logo-in); }
+.icon-link.social-leetcode:hover { color: var(--logo-lc); }
 
 /* ─── Playground (physics pills) ─── */
 .pg-head {
@@ -524,6 +905,8 @@ a.inline-link:focus-visible::after,
 .pg-scene:active { cursor: grabbing; }
 
 .pg-pill {
+  -webkit-user-drag: none;
+  user-select: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -567,28 +950,177 @@ a.inline-link:focus-visible::after,
 }
 
 /* ─── Spotify card ─── */
+/* Wedged into the right edge at every width. At rest only the sleeve pokes
+   out; revealing it is hover where there's a cursor, tap where there isn't. */
 .spotify-card {
+  position: fixed;
+  right: 0;
+  bottom: 28px;
+  z-index: 40;
   display: flex;
   align-items: center;
-  gap: 11px;
-  width: 100%;
-  padding: 9px 12px;
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
-  background-color: color-mix(in srgb, var(--bg-color) 20%, transparent);
+  gap: 12px;
+  width: min(320px, calc(100vw - 40px));
+  padding: 10px 14px 10px 10px;
+  /* No chrome at rest — just a disc against the page. The panel materialises
+     only once it slides out and there is something to contain. */
+  border: 1px solid transparent;
+  border-right: 0;
+  border-radius: 14px 0 0 14px;
+  background-color: transparent;
+  box-shadow: none;
+  overflow: hidden;
   text-decoration: none;
-  transition: background-color 0.15s ease;
+  /* Half the disc on screen; the other half sits past the edge. */
+  transform: translateX(calc(100% - 42px));
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.25, 1),
+    background-color 0.3s ease-out, border-color 0.3s ease-out,
+    box-shadow 0.3s ease-out;
 }
 
-.spotify-card:hover {
-  background-color: color-mix(in srgb, var(--bg-color) 40%, transparent);
+.spotify-card.is-open {
+  transform: translateX(0);
+  border-color: var(--border-color);
+  background-color: color-mix(in srgb, var(--bg-highlighted) 82%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: -6px 0 24px rgba(0, 0, 0, 0.28);
+}
+
+/* Keyed on hover capability, not width — a phone in landscape is wide but
+   still has no cursor to reveal it with. */
+@media (hover: hover) {
+  .spotify-card:hover .spotify-disc,
+  .spotify-card:focus-within .spotify-disc {
+    padding: 0;
+    background-image: none;
+  }
+
+  .spotify-card:hover .spotify-wash,
+  .spotify-card:focus-within .spotify-wash { opacity: 0.55; }
+
+  .spotify-card:hover .spotify-scrim,
+  .spotify-card:focus-within .spotify-scrim { opacity: 1; }
+
+  .spotify-card:focus-within,
+  .spotify-card:hover {
+    transform: translateX(0);
+    border-color: var(--border-color);
+    background-color: color-mix(in srgb, var(--bg-highlighted) 82%, transparent);
+    backdrop-filter: blur(10px);
+    box-shadow: -6px 0 24px rgba(0, 0, 0, 0.28);
+  }
+}
+
+/* Blown-up, blurred artwork behind the card — gives it a ground of its own
+   instead of relying on whatever page colour happens to be behind it. */
+.spotify-wash {
+  position: absolute;
+  inset: -30%;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(26px) saturate(1.7);
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+  pointer-events: none;
+}
+
+/* Pushes contrast back so the track name stays readable over any artwork. */
+.spotify-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: color-mix(in srgb, var(--bg-highlighted) 62%, transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+  pointer-events: none;
+}
+
+.spotify-card.is-open .spotify-wash { opacity: 0.55; }
+.spotify-card.is-open .spotify-scrim { opacity: 1; }
+
+/* Content has to sit above both layers. */
+.spotify-disc,
+.spotify-text,
+.spotify-mark {
+  position: relative;
+  z-index: 2;
+}
+
+/* A CD with the album art printed on it: art clipped to a circle, faint
+   concentric grooves over the top, and a punched spindle hole. */
+.spotify-disc {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  /* The clear plastic rim outside the printed label — on a real disc it's a
+     visible band, not a hairline. */
+  padding: 2px;
+  background-image: var(--disc-rim);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35), 0 2px 10px rgba(0, 0, 0, 0.35);
+  transition: padding 0.35s cubic-bezier(0.2, 0.8, 0.25, 1),
+    background-image 0.3s ease-out;
+}
+
+/* Once the card is open it's just artwork — the rim only exists to sell the
+   disc while that's the single thing on screen. */
+.spotify-card.is-open .spotify-disc {
+  padding: 0;
+  background-image: none;
+}
+
+.spotify-disc.is-spinning {
+  animation: spin 8s linear infinite;
 }
 
 .spotify-art {
-  border-radius: 6px;
-  object-fit: cover;
-  flex-shrink: 0;
   display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.spotify-disc-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  background-image: repeating-radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.035) 0 1px,
+      rgba(0, 0, 0, 0.03) 1px 4px
+    ),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 42%);
+}
+
+.spotify-disc-hole {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background-color: var(--bg-highlighted);
+  /* Spindle hole, then the wide clear band around the hub — that band is the
+     thing that actually makes a disc read as a CD. */
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55),
+    0 0 0 8px var(--disc-hub),
+    0 0 0 9px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotify-disc.is-spinning { animation: none; }
+  .spotify-eq i { animation: none; transform: scaleY(0.55); }
 }
 
 .spotify-text {
@@ -597,6 +1129,53 @@ a.inline-link:focus-visible::after,
   gap: 1px;
   flex: 1;
   min-width: 0;
+}
+
+/* Status moved above the title, his way — it frees the right edge for the
+   Spotify mark and keeps the whole card inside 320px. */
+.spotify-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.625rem;
+  line-height: 0.95rem;
+  color: var(--body-color-faded);
+  white-space: nowrap;
+}
+
+/* Four bars at staggered periods so the loop never visibly repeats. */
+.spotify-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5px;
+  height: 8px;
+  flex-shrink: 0;
+}
+
+.spotify-eq i {
+  width: 2px;
+  height: 100%;
+  border-radius: 1px;
+  background-color: #1db954;
+  transform-origin: bottom;
+  animation: eq 1s ease-in-out infinite;
+}
+
+.spotify-eq i:nth-child(2) { animation-duration: 0.72s; animation-delay: -0.3s; }
+.spotify-eq i:nth-child(3) { animation-duration: 1.24s; animation-delay: -0.6s; }
+.spotify-eq i:nth-child(4) { animation-duration: 0.88s; animation-delay: -0.15s; }
+
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.25); }
+  50%      { transform: scaleY(1); }
+}
+
+.spotify-mark {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: #1db954;
+  opacity: 0.85;
 }
 
 .spotify-title,
@@ -608,37 +1187,18 @@ a.inline-link:focus-visible::after,
 }
 
 .spotify-title {
-  font-size: 0.85rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   color: var(--body-color-highlighted);
 }
 
 .spotify-artist {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   color: var(--body-color-faded);
 }
 
-/* Status sits flush right, so the equaliser reads as an anchor, not a stray. */
-.spotify-status {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  flex-shrink: 0;
-  font-size: 0.7rem;
-  color: var(--body-color-faded);
-  letter-spacing: -0.01em;
-}
-
-@media (max-width: 420px) {
-  .spotify-status span {
-    display: none;
-  }
-}
 
 .spotify-card img {
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
   object-fit: cover;
   flex-shrink: 0;
 }
@@ -722,18 +1282,35 @@ a.inline-link:focus-visible::after,
   color: var(--body-color-highlighted);
 }
 
-.header-dot {
-  color: var(--body-color-faded);
-  font-size: 0.78rem;
-}
 
 /* Ticking IST clock — monospace so the seconds don't jitter the layout. */
 .header-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 16px;
   color: var(--body-color-faded);
   font-family: monospace;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
+}
+
+.header-live {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  animation: live-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-live { animation: none; opacity: 0.8; }
 }
 
 /* ─── Site header (avatar + name on one line) ─── */
@@ -743,7 +1320,6 @@ a.inline-link:focus-visible::after,
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.5rem 1rem;
-  padding: 0.5rem 0 0;
 }
 
 .site-header-id {
@@ -764,7 +1340,7 @@ a.inline-link:focus-visible::after,
 .site-header-meta {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.75rem;
   flex-shrink: 0;
 }
 

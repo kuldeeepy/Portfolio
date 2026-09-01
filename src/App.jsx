@@ -5,32 +5,27 @@ import Spotify from "./components/spotify";
 import ShapesCanvas from "./components/ShapesCanvas";
 import ScrambleText from "./components/ScrambleText";
 import SocialIcon from "./components/SocialIcon";
-import WorkIcon from "./components/WorkIcon";
+import WorkRow from "./components/WorkRow";
 import Footer from "./components/Footer";
 import PreviewLink from "./components/PreviewLink";
 import PlaygroundCanvas from "./components/PlaygroundCanvas";
+import Contributions from "./components/Contributions";
 import useTheme from "./useTheme";
 
-import { projects, playground, workHistory, connectLinks, RESUME_URL } from "./data";
+import {
+  projects,
+  playground,
+  workHistory,
+  connectLinks,
+  RESUME_URL,
+  GIT_USER,
+  LINKEDIN_URL,
+} from "./data";
 import { getAllWritings, formatMonth } from "./writings";
 import picture from "./assets/kuldeep2.webp";
 import billu from "./assets/billu.webp";
 
 // ─── layout primitives ────────────────────────────────────────────────────────
-
-function Separator() {
-  return (
-    <div
-      role="separator"
-      style={{
-        height: 1,
-        width: "100%",
-        backgroundColor: "var(--border-color)",
-        flexShrink: 0,
-      }}
-    />
-  );
-}
 
 function Section({ children, delay = 0, gap = "0.7rem" }) {
   return (
@@ -55,15 +50,36 @@ function SectionHeading({ children }) {
       as="h2"
       onLoad={false}
       style={{
-        fontWeight: 500,
-        fontSize: "0.95rem",
+        fontWeight: 400,
+        fontSize: "1rem",
         color: "var(--body-color-highlighted)",
-        lineHeight: 1,
+        lineHeight: 1.5,
         marginBottom: "0.25rem",
       }}
     >
       {children}
     </ScrambleText>
+  );
+}
+
+// The little hand-drawn arrow next to "open to work". Decorative only — the
+// buttons it points at carry the meaning.
+function Scribble() {
+  return (
+    <svg
+      className="cta-arrow"
+      viewBox="0 0 57 23"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path className="cta-arrow-tail" d="M2 2.5c16 1 34 6 51 18" />
+      <path className="cta-arrow-head" d="M44 20.2 53 20.5" />
+      <path className="cta-arrow-head" d="M49.4 12 53 20.5" />
+    </svg>
   );
 }
 
@@ -86,12 +102,12 @@ function TimeCounter() {
     return () => clearInterval(id);
   }, []);
 
+  if (!time) return <span className="header-time" />;
+
   return (
-    <span
-      className="header-time"
-    >
-      {time}
-      {time && " · IST"}
+    <span className="header-time">
+      <span className="header-live" aria-hidden="true" />
+      {time} IST
     </span>
   );
 }
@@ -123,9 +139,9 @@ export default function App() {
               as="h1"
               onLoad
               style={{
-                fontSize: "1.05rem",
+                fontSize: "1rem",
                 fontWeight: 500,
-                lineHeight: 1,
+                lineHeight: 1.5,
                 color: "var(--body-color-highlighted)",
               }}
             >
@@ -133,60 +149,75 @@ export default function App() {
             </ScrambleText>
           </div>
           <div className="site-header-meta">
-            <a
-              href={RESUME_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="header-link"
-            >
-              Resume
-            </a>
-            <span className="header-dot" aria-hidden="true">
-              ·
-            </span>
             <TimeCounter />
           </div>
         </header>
 
+        {/* icons only, sitting right under the profile */}
+        <div className="social-row">
+          {[...connectLinks, { label: "Resume", href: RESUME_URL, social: "cv" }].map(
+            (link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`icon-link social-${link.social}`}
+                aria-label={link.label}
+                title={link.label}
+              >
+                <SocialIcon social={link.social} />
+              </a>
+            ),
+          )}
+        </div>
+
         {/* intro */}
         <Section delay={0.1} gap="1rem">
           <p className="intro-bio">
-            Software engineer. I build things end to end and write about how
-            they work.
+            Engineer based in India, with 2+ years of experience building zero&nbsp;to&nbsp;one,
+            obsessed with building things, AI, startups and how things work underneath.
           </p>
-          <Spotify theme={theme} />
+          <div className="cta-row">
+            <span className="cta-note" aria-hidden="true">
+              <span className="cta-note-text">open to work</span>
+              <Scribble />
+            </span>
+            <a
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-btn"
+            >
+              <SocialIcon social="linkedin" />
+              Message me
+            </a>
+          </div>
+
         </Section>
 
-        <Separator />
+
+        {/* github contribution calendar */}
+        <Section delay={0.15}>
+          <SectionHeading>Activity</SectionHeading>
+          <Contributions user={GIT_USER} />
+        </Section>
+
 
         {/* work life */}
         <Section delay={0.2}>
           <SectionHeading>Work Life</SectionHeading>
-          <div style={{ marginLeft: -8 }}>
+          <div className="work-list">
             {workHistory.map((w) => (
-              <a
-                key={w.company}
-                href={w.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="list-row"
-              >
-                <WorkIcon favicon={w.favicon} letter={w.company[0]} />
-                <span>{w.role}</span>
-                <span className="list-row-years">
-                  {w.from === w.to ? w.from : `${w.from} – ${w.to}`}
-                </span>
-              </a>
+              <WorkRow key={w.company} job={w} />
             ))}
           </div>
         </Section>
 
-        <Separator />
 
         {/* writings */}
         {latestWritings.length > 0 && (
-          <>
-            <Section delay={0.3}>
+          <Section delay={0.3}>
               <SectionHeading>Writings</SectionHeading>
               <div
                 style={{
@@ -212,17 +243,14 @@ export default function App() {
                   </Link>
                 )}
               </div>
-            </Section>
-
-            <Separator />
-          </>
+          </Section>
         )}
 
         {/* projects — four that get the real estate */}
         <Section delay={0.4}>
-          <SectionHeading>Projects</SectionHeading>
+          <SectionHeading>Side Projects</SectionHeading>
           <div className="proj-grid">
-            {projects.map((p, i) => (
+            {projects.map((p) => (
               <a
                 key={p.name}
                 href={p.demo || p.code}
@@ -233,25 +261,35 @@ export default function App() {
                 <span className="proj-shot">
                   <img src={p.shot} alt="" loading="lazy" draggable={false} />
                 </span>
-                <span className="proj-card-body">
-                  <span className="proj-card-top">
-                    <span className="proj-index">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
+                <span className="proj-body">
+                  <span className="proj-head">
                     <span className="proj-name">{p.name}</span>
-                    <span className="proj-links">
-                      {p.demo && <span className="proj-link">demo</span>}
-                      {p.code && <span className="proj-link">code</span>}
-                    </span>
+                    {p.tag && <span className="proj-tag">{p.tag}</span>}
+                    <svg
+                      className="proj-arrow"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17 17 7" />
+                      <path d="M8 7h9v9" />
+                    </svg>
                   </span>
                   <span className="proj-short">{p.short}</span>
+                  <span className="proj-foot">
+                    {p.code && <span className="proj-link">code</span>}
+                    {p.demo && <span className="proj-link">demo &rarr;</span>}
+                  </span>
                 </span>
               </a>
             ))}
           </div>
         </Section>
 
-        <Separator />
 
         {/* playground — small things, thrown into the physics canvas */}
         <Section delay={0.45}>
@@ -262,15 +300,12 @@ export default function App() {
           <PlaygroundCanvas items={playground} theme={theme} />
         </Section>
 
-        <Separator />
 
         {/* about me */}
         <Section delay={0.5}>
-          <SectionHeading>About Me</SectionHeading>
           <p style={{ color: "var(--body-color)" }}>
-            Beyond work, I like to read about startups, finance, new cool tech,
-            random article on medium. You&apos;ll occasionally find me watching
-            travel vlogs for my next solo trip or doing pull-ups at gym. and yes
+            Beyond work, you&apos;ll occasionally find me watching travel vlogs
+            for my next solo trip or doing pull-ups at the gym. And yes,
             annoying my{" "}
             <PreviewLink src={billu} alt="Billu">
               cat
@@ -279,32 +314,11 @@ export default function App() {
           </p>
         </Section>
 
-        <Separator />
 
-        {/* connect */}
+        <Spotify theme={theme} />
+
+        {/* footer — location, socials and theme toggle on one line */}
         <Section delay={0.6}>
-          <SectionHeading>Connect</SectionHeading>
-          <div style={{ marginLeft: -8 }}>
-            {connectLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`list-row-connect social-${link.social}`}
-              >
-                <SocialIcon social={link.social} />
-                <span>{link.label}</span>
-                <span>{link.value}</span>
-              </a>
-            ))}
-          </div>
-        </Section>
-
-        <Separator />
-
-        {/* footer */}
-        <Section delay={0.7}>
           <Footer theme={theme} toggleTheme={toggleTheme} />
         </Section>
       </main>
