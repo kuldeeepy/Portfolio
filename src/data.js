@@ -1,3 +1,4 @@
+import kimLogo from "./assets/kim-logo.jpg";
 import shotCheckout from "./assets/shots/checkout-copilot.webp";
 import shotAlgo from "./assets/shots/algo-trader.webp";
 import shotAdscan from "./assets/shots/adscan.webp";
@@ -18,6 +19,13 @@ export const GIT_URL      = "https://github.com/kuldeeepy";
 export const LINKEDIN_URL = "https://www.linkedin.com/in/kuldeeep-yadav/";
 export const LEETCODE_URL = "https://leetcode.com/u/kuldeeepy/";
 
+// Personal account — this is what the contribution graph reads.
+export const GIT_USER = "kuldeeepy";
+
+// Fill this in and the mail icon appears in the footer row. Empty on purpose:
+// a mailto: to a guessed address is worse than no icon at all.
+export const EMAIL = "";
+
 // Order here is the order on the page — newest isn't automatically best.
 // `demo` is optional; a row with only `code` just renders one link.
 // Four that get the real estate. Order here is the order on the page.
@@ -25,7 +33,8 @@ export const projects = [
   {
     name: "checkout copilot",
     shot: shotCheckout,
-    short: "Turns plain English into payment API calls.",
+    tag: "Recent",
+    short: "Plain English into payment API calls.",
     demo: "https://checkout-copilot.vercel.app",
     code: "https://github.com/kuldeeepy/checkout-copilot",
   },
@@ -39,7 +48,7 @@ export const projects = [
     // Repo is private, so this one is demo-only until it's published.
     name: "adscan",
     shot: shotAdscan,
-    short: "The ads are spending. Is anything counting?",
+    short: "Ads are spending. Is anything counting?",
     demo: "https://adscan-beta.vercel.app",
   },
   {
@@ -61,28 +70,42 @@ export const playground = [
   { name: "OpenBook",         url: "https://openbook-org.vercel.app" },
 ];
 
+// `start`/`end` are "YYYY-MM"; `end: null` means current. Duration is computed
+// from them, so it stays right without anyone editing a hardcoded "10 mos".
+// Set to null until the real months are confirmed — a wrong date on a CV is
+// worse than a missing one, so the row just shows the year range instead.
 export const workHistory = [
   {
     role: "Software Engineer",
     company: "Kim.cc",
+    location: "Hybrid",
+    start: null,
+    end: null,
     from: "2024",
     to: "Now",
     link: "https://kim.cc",
-    favicon: "https://www.google.com/s2/favicons?domain=kim.cc&sz=32",
+    // Real logo, stored locally: the LinkedIn CDN URL it came from carries an
+    // expiry token and would have 404'd in a couple of weeks.
+    logo: kimLogo,
   },
   {
     role: "Founding Engineer",
     company: "Go CrossPay",
+    location: "Remote",
+    start: null,
+    end: null,
     from: "2024",
     to: "2024",
     link: "https://www.gocrosspe.com",
-    favicon: "https://www.google.com/s2/favicons?domain=gocrosspe.com&sz=32",
+    favicon: "https://www.google.com/s2/favicons?domain=gocrosspe.com&sz=64",
   },
 ];
 
+// Footer icon row. `label` is the accessible name — the row itself is icons only.
 export const connectLinks = [
-  { label: "Twitter",  value: "@iamkuldeepY",   href: X_URL,        social: "twitter"  },
-  { label: "GitHub",   value: "@kuldeeepy",     href: GIT_URL,      social: "github"   },
-  { label: "LinkedIn", value: "Kuldeeep Yadav", href: LINKEDIN_URL, social: "linkedin" },
-  { label: "Leetcode", value: "@kuldeeepy",     href: LEETCODE_URL, social: "leetcode" },
+  { label: "Twitter",  href: X_URL,        social: "twitter"  },
+  { label: "GitHub",   href: GIT_URL,      social: "github"   },
+  { label: "LinkedIn", href: LINKEDIN_URL, social: "linkedin" },
+  { label: "Leetcode", href: LEETCODE_URL, social: "leetcode" },
+  ...(EMAIL ? [{ label: "Email", href: `mailto:${EMAIL}`, social: "mail" }] : []),
 ];
