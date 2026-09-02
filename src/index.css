@@ -43,6 +43,8 @@
   --panel: white;
   --accent: #0284c7;
   --disc-hub: rgba(0, 0, 0, 0.2);
+  --shot-ground: rgba(0, 0, 0, 0.05);
+  --frame-edge: rgba(0, 0, 0, 0.18);
   --disc-rim: conic-gradient(
     from 210deg,
     rgba(0, 0, 0, 0.04),
@@ -66,6 +68,8 @@
   --panel: var(--colors-gray950);
   --accent: #38bdf8;
   --disc-hub: rgba(255, 255, 255, 0.34);
+  --shot-ground: rgba(255, 255, 255, 0.09);
+  --frame-edge: rgba(255, 255, 255, 0.16);
   --disc-rim: conic-gradient(
     from 210deg,
     rgba(255, 255, 255, 0.05),
@@ -447,13 +451,40 @@ a.inline-link:focus-visible::after,
   background-color: color-mix(in srgb, var(--bg-color) 50%, transparent);
 }
 
+/* A quiet ground with the screenshot floating in a device frame. A bare
+   screenshot at 80px is a field of detail with no focal shape; the frame's
+   silhouette is what actually reads at this size. */
 .proj-shot {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   width: 80px;
   line-height: 0;
   overflow: hidden;
+  background-color: var(--shot-ground);
 }
+
+.proj-frame {
+  overflow: hidden;
+  background-color: var(--bg-highlighted);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--frame-edge);
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+
+.proj-frame--browser {
+  width: 58px;
+  height: 38px;
+  border-radius: 3px;
+}
+
+.proj-frame--phone {
+  width: 27px;
+  height: 54px;
+  border-radius: 5px;
+}
+
+.proj-card:hover .proj-frame { transform: scale(1.06); }
 
 /* Grey by default, colour on hover — his cards do this and it keeps four
    thumbnails from competing with the text. */
@@ -462,15 +493,15 @@ a.inline-link:focus-visible::after,
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top left;
-  /* Dimmed as well as greyed: his four screenshots are all dark, ours mixes
-     light and dark, and a white thumbnail next to three dark ones glares. */
+  object-position: top center;
+  /* Greyed but not dimmed. The dim dated from full-bleed thumbnails where a
+     light screenshot glared; the frame contains that now, and on dark mode a
+     dark screenshot at 72% simply vanished. */
   filter: grayscale(100%);
-  opacity: 0.72;
-  transition: filter 0.22s ease-out, opacity 0.22s ease-out;
+  transition: filter 0.22s ease-out;
 }
 
-.proj-card:hover .proj-shot img { filter: grayscale(0%); opacity: 1; }
+.proj-card:hover .proj-shot img { filter: grayscale(0%); }
 
 .proj-body {
   display: flex;
@@ -851,6 +882,7 @@ a.inline-link:focus-visible::after,
 @media (prefers-reduced-motion: reduce) {
   .icon-link:hover,
   .icon-link:active { transform: none; }
+  .proj-card:hover .proj-frame { transform: none; }
 }
 
 

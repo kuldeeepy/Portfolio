@@ -259,7 +259,9 @@ export default function App() {
                 className="proj-card"
               >
                 <span className="proj-shot">
-                  <img src={p.shot} alt="" loading="lazy" draggable={false} />
+                  <span className={`proj-frame proj-frame--${p.frame}`}>
+                    <img src={p.shot} alt="" loading="lazy" draggable={false} />
+                  </span>
                 </span>
                 <span className="proj-body">
                   <span className="proj-head">
