@@ -2,7 +2,9 @@ import kimLogo from "./assets/kim-logo.jpg";
 import shotCheckout from "./assets/shots/checkout-copilot.webp";
 import shotAlgo from "./assets/shots/algo-trader.webp";
 import shotAdscan from "./assets/shots/adscan.webp";
-import shotDiet from "./assets/shots/diet-plate.webp";
+// Cropped to the app column; the original was a desktop capture with the
+// phone-width UI sitting left of centre, so a phone frame cut it in half.
+import shotDiet from "./assets/shots/diet-plate-mobile.png";
 
 // Overridable from Vercel so a new resume upload needs no code change.
 // The literal is a fallback, not a placeholder: if the env var is missing the
@@ -26,12 +28,15 @@ export const GIT_USER = "kuldeeepy";
 // a mailto: to a guessed address is worse than no icon at all.
 export const EMAIL = "";
 
+// `frame` shapes the thumbnail: a browser chrome for web apps, a handset for
+// mobile ones. At 80px the silhouette is what reads, not the screenshot.
 // Order here is the order on the page — newest isn't automatically best.
 // `demo` is optional; a row with only `code` just renders one link.
 // Four that get the real estate. Order here is the order on the page.
 export const projects = [
   {
     name: "checkout copilot",
+    frame: "browser",
     shot: shotCheckout,
     tag: "Recent",
     short: "Plain English into payment API calls.",
@@ -40,6 +45,7 @@ export const projects = [
   },
   {
     name: "algo trader",
+    frame: "browser",
     shot: shotAlgo,
     short: "Backtests intraday strategies.",
     code: "https://github.com/kuldeeepy/algo-trader",
@@ -47,12 +53,14 @@ export const projects = [
   {
     // Repo is private, so this one is demo-only until it's published.
     name: "adscan",
+    frame: "browser",
     shot: shotAdscan,
     short: "Ads are spending. Is anything counting?",
     demo: "https://adscan-beta.vercel.app",
   },
   {
     name: "diet plate",
+    frame: "phone",
     shot: shotDiet,
     short: "Plans a week of meals.",
     code: "https://github.com/kuldeeepy/diet-plate",
