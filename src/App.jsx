@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import Spotify from "./components/spotify";
 import ShapesCanvas from "./components/ShapesCanvas";
@@ -11,6 +11,9 @@ import PreviewLink from "./components/PreviewLink";
 import PlaygroundCanvas from "./components/PlaygroundCanvas";
 import Contributions from "./components/Contributions";
 import useTheme from "./useTheme";
+import { registerWebMcpTools } from "./webmcp";
+import { buildTools } from "./tools";
+import CommandPalette, { MOD_KEY } from "./components/CommandPalette";
 
 import {
   projects,
@@ -116,6 +119,32 @@ function TimeCounter() {
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+  const [paletteOpen, setPaletteOpen] = useState(false);
+
+  // One list, two consumers: the ⌘K palette below and any agent that supports
+  // WebMCP. Registration is a no-op where the API is missing.
+  const tools = useMemo(
+    () => buildTools({ navigate, toggleTheme }),
+    [navigate, toggleTheme],
+  );
+
+  useEffect(() => {
+    registerWebMcpTools(tools);
+  }, [tools]);
+
+  // The shortcut has to live here so the header chip and the key open the
+  // same thing. Nobody discovers ⌘K on a stranger's site without a hint.
+  useEffect(() => {
+    const onKey = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setPaletteOpen((o) => !o);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
   const allWritings = getAllWritings();
   const latestWritings = allWritings.slice(0, 4);
 
@@ -150,6 +179,16 @@ export default function App() {
           </div>
           <div className="site-header-meta">
             <TimeCounter />
+            <button
+              type="button"
+              className="cmdk-chip"
+              onClick={() => setPaletteOpen(true)}
+              aria-label="Open command palette"
+              title="Command palette"
+            >
+              <kbd>{MOD_KEY}</kbd>
+              <kbd>K</kbd>
+            </button>
           </div>
         </header>
 
@@ -324,6 +363,12 @@ export default function App() {
           <Footer theme={theme} toggleTheme={toggleTheme} />
         </Section>
       </main>
+
+      <CommandPalette
+        tools={tools}
+        open={paletteOpen}
+        onClose={() => setPaletteOpen(false)}
+      />
 
       {/* physics canvas at bottom */}
       <div
