@@ -43,6 +43,11 @@
   --panel: white;
   --accent: #0284c7;
   --disc-hub: rgba(0, 0, 0, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-edge: rgba(0, 0, 0, 0.12);
+  --glass-edge-top: rgba(255, 255, 255, 0.95);
+  --glass-sheen: rgba(255, 255, 255, 0.85);
+  --glass-underlight: rgba(0, 0, 0, 0.06);
   --shot-ground: rgba(0, 0, 0, 0.05);
   --frame-edge: rgba(0, 0, 0, 0.18);
   --disc-rim: conic-gradient(
@@ -68,6 +73,11 @@
   --panel: var(--colors-gray950);
   --accent: #38bdf8;
   --disc-hub: rgba(255, 255, 255, 0.34);
+  --glass-bg: rgba(28, 28, 30, 0.5);
+  --glass-edge: rgba(255, 255, 255, 0.11);
+  --glass-edge-top: rgba(255, 255, 255, 0.3);
+  --glass-sheen: rgba(255, 255, 255, 0.16);
+  --glass-underlight: rgba(0, 0, 0, 0.4);
   --shot-ground: rgba(255, 255, 255, 0.09);
   --frame-edge: rgba(255, 255, 255, 0.16);
   --disc-rim: conic-gradient(
@@ -327,7 +337,7 @@ a.inline-link,
   border-bottom: 1px dotted var(--link-color);
   color: var(--link-color);
   cursor: pointer;
-  transition: border-color 0.4s ease-in-out;
+  transition: border-color 0.2s ease;
 }
 
 a.inline-link::before,
@@ -338,8 +348,9 @@ a.inline-link::before,
   overflow: hidden;
   color: var(--link-color-hover);
   white-space: nowrap;
-  width: 0%;
-  transition: width 0.4s 0.3s cubic-bezier(0.7, 0, 0.3, 1);
+  /* clip-path instead of width: width animates layout every frame. */
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.4s 0.3s cubic-bezier(0.7, 0, 0.3, 1);
   pointer-events: none;
 }
 
@@ -369,7 +380,7 @@ a.inline-link:hover::before,
 a.inline-link:focus-visible::before,
 .preview-link:hover::before,
 .preview-link:focus-visible::before {
-  width: 100%;
+  clip-path: inset(0 0 0 0);
 }
 
 a.inline-link:hover::after,
@@ -484,7 +495,7 @@ a.inline-link:focus-visible::after,
   border-radius: 5px;
 }
 
-.proj-card:hover .proj-frame { transform: scale(1.06); }
+
 
 /* Grey by default, colour on hover — his cards do this and it keeps four
    thumbnails from competing with the text. */
@@ -552,7 +563,6 @@ a.inline-link:focus-visible::after,
 
 .proj-card:hover .proj-arrow {
   color: var(--body-color-highlighted);
-  transform: translate(2px, -2px);
 }
 
 .proj-short {
@@ -780,11 +790,7 @@ a.inline-link:focus-visible::after,
   color: var(--body-color-highlighted);
   border-color: var(--body-color-faded);
   background-color: color-mix(in srgb, var(--bg-color) 45%, transparent);
-  transform: translateY(-1px);
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.3);
 }
-
-.cta-btn:hover svg { transform: translateX(-1px); }
 
 .cta-btn:active {
   transform: translateY(0);
@@ -874,7 +880,6 @@ a.inline-link:focus-visible::after,
 .icon-link:hover {
   color: var(--body-color-highlighted);
   background-color: color-mix(in srgb, var(--bg-color) 50%, transparent);
-  transform: scale(1.08);
 }
 
 .icon-link:active { transform: scale(0.97); }
@@ -1020,12 +1025,12 @@ a.inline-link:focus-visible::after,
 
 /* Keyed on hover capability, not width — a phone in landscape is wide but
    still has no cursor to reveal it with. */
-@media (hover: hover) {
-  .spotify-card:hover .spotify-disc,
-  .spotify-card:focus-within .spotify-disc {
-    padding: 0;
-    background-image: none;
-  }
+@media (hover: hover) and (pointer: fine) {
+  .spotify-card:hover .spotify-disc::before,
+  .spotify-card:focus-within .spotify-disc::before { opacity: 0; }
+
+  .spotify-card:hover .spotify-art,
+  .spotify-card:focus-within .spotify-art { transform: scale(1); }
 
   .spotify-card:hover .spotify-wash,
   .spotify-card:focus-within .spotify-wash { opacity: 0.55; }
@@ -1089,21 +1094,26 @@ a.inline-link:focus-visible::after,
   height: 64px;
   flex-shrink: 0;
   border-radius: 50%;
-  /* The clear plastic rim outside the printed label — on a real disc it's a
-     visible band, not a hairline. */
-  padding: 2px;
-  background-image: var(--disc-rim);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35), 0 2px 10px rgba(0, 0, 0, 0.35);
-  transition: padding 0.35s cubic-bezier(0.2, 0.8, 0.25, 1),
-    background-image 0.3s ease-out;
+}
+
+/* The clear plastic rim. A ring that fades rather than padding that shrinks —
+   padding is a layout property, so animating it costs layout + paint on every
+   frame. (background-image never interpolated to `none` either; that
+   transition was a no-op.) */
+.spotify-disc::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-image: var(--disc-rim);
+  transition: opacity 0.3s ease-out;
 }
 
 /* Once the card is open it's just artwork — the rim only exists to sell the
    disc while that's the single thing on screen. */
-.spotify-card.is-open .spotify-disc {
-  padding: 0;
-  background-image: none;
-}
+.spotify-card.is-open .spotify-disc::before { opacity: 0; }
+.spotify-card.is-open .spotify-art { transform: scale(1); }
 
 .spotify-disc.is-spinning {
   animation: spin 8s linear infinite;
@@ -1115,6 +1125,9 @@ a.inline-link:focus-visible::after,
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
+  /* Sits inside the rim at rest, fills the disc once open. */
+  transform: scale(0.92);
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .spotify-disc-sheen {
@@ -1566,4 +1579,356 @@ a.inline-link:focus-visible::after,
   }
   .animate-section > * { animation: none !important; opacity: 1 !important; }
   .scramble > span::after { animation: none !important; }
+}
+
+
+/* ─── Hover motion, cursor devices only ─── */
+/* Touch fires :hover on tap and leaves it stuck, so movement is gated behind
+   a real pointer. Press states (:active) stay ungated — a tap IS a press. */
+@media (hover: hover) and (pointer: fine) {
+  .icon-link:hover { transform: scale(1.08); }
+
+  .cta-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .cta-btn:hover svg { transform: translateX(-1px); }
+
+  .proj-card:hover .proj-frame { transform: scale(1.06); }
+
+  .proj-card:hover .proj-arrow { transform: translate(2px, -2px); }
+}
+
+/* Press feedback — the interface confirming it heard the tap. */
+.theme-toggle-btn {
+  transition: color 0.15s ease, border-color 0.15s ease,
+    transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle-btn:active,
+.proj-card:active,
+.work-row:active {
+  transform: scale(0.97);
+}
+
+.proj-card,
+.work-row {
+  transition: background-color 0.15s ease-out, border-color 0.18s ease-out,
+    transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle-btn:active,
+  .proj-card:active,
+  .work-row:active { transform: none; }
+}
+
+/* ─── Command palette ─── */
+/* Built from the same tool list WebMCP publishes. Declaring tools is
+   speculative work while agents are rare; a ⌘K palette out of the same list
+   is not. */
+
+/* The chip is the whole discoverability story — a shortcut nobody can find
+   may as well not exist. Small enough to read as craft, not instruction. */
+.cmdk-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 5px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease-out,
+    transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cmdk-chip kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border: 1px solid var(--border-color);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background-color: color-mix(in srgb, var(--bg-color) 40%, transparent);
+  color: var(--body-color-faded);
+  font-family: inherit;
+  font-size: 0.6rem;
+  line-height: 1;
+  transition: color 0.15s ease-out, border-color 0.15s ease-out;
+}
+
+.cmdk-chip:hover kbd { color: var(--body-color-highlighted); border-color: var(--body-color-faded); }
+.cmdk-chip:active { transform: scale(0.94); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cmdk-chip:active { transform: none; }
+}
+
+.cmdk-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  padding: 12vh 1rem 1rem;
+  background-color: color-mix(in srgb, var(--colors-gray1000) 18%, transparent);
+  animation: cmdk-fade 0.15s ease-out;
+}
+
+/* Translucent material rather than a flat panel. A large surface should read
+   as thick — heavy blur, boosted saturation so colour survives it, and a
+   bright top edge standing in for light catching the top of the glass.
+   Centre-origin (modals are exempt from trigger-anchoring) and never from
+   scale(0). */
+.cmdk {
+  width: 100%;
+  max-width: 480px;
+  max-height: 62vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--glass-edge);
+  border-top-color: var(--glass-edge-top);
+  border-radius: 16px;
+  position: relative;
+  isolation: isolate;
+  background-color: var(--glass-bg);
+  /* Big blur, heavy saturation, slight brightness lift — the saturation is
+     what stops a blurred page turning to grey sludge. */
+  backdrop-filter: blur(40px) saturate(200%) brightness(1.08);
+  -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.08);
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.25),
+    /* Light catching the top edge, shadow pooling at the bottom — this is
+       what reads as a pane of glass rather than a flat surface. */
+    inset 0 1px 0 var(--glass-sheen),
+    inset 0 -1px 0 var(--glass-underlight);
+  /* Materialise: blur and scale arrive together, so it reads as glass
+     forming rather than a rectangle fading in. */
+  animation: cmdk-in 0.22s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Vibrancy — over a translucent surface, flat grey text goes muddy. Slightly
+   heavier and fractionally looser than the same text on a solid ground. */
+.cmdk-input,
+.cmdk-row,
+.cmdk-result-title {
+  letter-spacing: 0.005em;
+}
+
+.cmdk-row.is-active { font-weight: 450; }
+
+.cmdk::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E");
+}
+
+.cmdk-input-wrap {
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--glass-edge);
+}
+
+.cmdk-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 0;
+  background: transparent;
+  color: var(--body-color-highlighted);
+  font: inherit;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.cmdk-input::placeholder { color: var(--body-color-faded); }
+
+.cmdk-list {
+  padding: 6px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.cmdk-group + .cmdk-group { margin-top: 4px; }
+
+.cmdk-group-label {
+  padding: 8px 10px 4px;
+  color: var(--body-color);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cmdk-row {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--body-color-highlighted);
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.12s ease-out, transform 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cmdk-row.is-active {
+  background-color: color-mix(in srgb, var(--body-color-faded) 22%, transparent);
+}
+
+.cmdk-row:active { transform: scale(0.99); }
+
+.cmdk-label { flex-shrink: 0; }
+
+.cmdk-sub {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--body-color);
+  font-size: 0.75rem;
+}
+
+/* Only the highlighted row advertises the key that runs it. */
+.cmdk-enter {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--body-color-faded);
+  font-size: 0.7rem;
+  opacity: 0;
+  transition: opacity 0.12s ease-out;
+}
+
+.cmdk-row.is-active .cmdk-enter { opacity: 1; }
+
+.cmdk-empty {
+  margin: 0;
+  padding: 18px 10px;
+  color: var(--body-color-faded);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.cmdk-result-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cmdk-back {
+  padding: 4px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--body-color);
+  font: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: color 0.15s ease-out, border-color 0.15s ease-out,
+    transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cmdk-back:hover { color: var(--body-color-highlighted); border-color: var(--body-color-faded); }
+.cmdk-back:active { transform: scale(0.97); }
+
+.cmdk-result-title {
+  color: var(--body-color-highlighted);
+  font-size: 0.82rem;
+}
+
+.cmdk-result {
+  margin: 0;
+  padding: 14px 16px;
+  overflow: auto;
+  font-family: monospace;
+  font-size: 0.72rem;
+  line-height: 1.55;
+  color: var(--body-color);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.cmdk-foot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border-top: 1px solid var(--glass-edge);
+  color: var(--body-color-faded);
+  font-size: 0.66rem;
+}
+
+.cmdk-foot kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.6rem;
+}
+
+.cmdk-foot-note {
+  margin-left: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes cmdk-fade {
+  from { opacity: 0; }
+}
+
+@keyframes cmdk-in {
+  from { opacity: 0; transform: scale(0.96) translateY(-8px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cmdk-backdrop, .cmdk { animation: none; }
+  .cmdk-row:active, .cmdk-back:active { transform: none; }
+}
+
+/* Translucency is a preference, not a given. Go frosty-solid and drop the
+   blur when asked. */
+@media (prefers-reduced-transparency: reduce) {
+  .cmdk {
+    background-color: var(--bg-highlighted);
+    backdrop-filter: none;
+  }
+  .cmdk-backdrop { backdrop-filter: none; }
+}
+
+@media (prefers-contrast: more) {
+  .cmdk {
+    background-color: var(--bg-highlighted);
+    backdrop-filter: none;
+    border-color: var(--body-color-faded);
+  }
+}
+
+@media (max-width: 560px) {
+  .cmdk-backdrop { padding-top: 8vh; }
+  .cmdk-foot-note { display: none; }
 }
