@@ -70,6 +70,7 @@ export const projects = [
 // Smaller things. These get thrown into the physics canvas — drag them around.
 // Live demo where one exists, repo otherwise.
 export const playground = [
+  { name: "oci-a1-hunter",    url: "https://github.com/kuldeeepy/oci-a1-hunter" },
   { name: "first-mcp-server", url: "https://github.com/kuldeeepy/first-mcp-server" },
   { name: "simple-app-aws",   url: "https://github.com/kuldeeepy/simple-app-aws" },
   { name: "money-tracker",    url: "https://github.com/kuldeeepy/money-tracker" },
