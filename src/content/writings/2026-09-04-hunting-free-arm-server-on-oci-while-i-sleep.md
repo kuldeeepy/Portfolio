@@ -27,14 +27,14 @@ I was able to get these two AMD instances and one of them i am using to hunt for
     --availability-domain "<your AD>"
 ```
 
-#### The Problem
+### The Problem
 
 ARM shape is mostly always out of stock in popular / busiest regions and obviously there's no waiting list or free-up notification saying "here you go with an always free instance" so the best we can do is keep hitting (begging) their servers for a VM instance.
 
 
 <!-- ![gogle](https://shorturl.at/EZPl2) -->
 
-#### The naive approach
+### The naive approach
 
 If you understood the problem, we can solve it by writing a simple POST request inside a loop which'll hit the oracle till eternity or until we get a VM. It might look something like this
 
@@ -53,8 +53,8 @@ Looks fine, right? It isn't. There are two major issues you can get into with th
 - **Rate limit:** considering this above script, let's say your one round-trip of request-response took 500ms to complete so in **1 sec 1 api call**, in **1 min 60 api calls** and in **an hour 3600 api calls**, you're ngmi.
 
 - **Error handling:** It can get you into two kinds of error scenarios, **retriable** and **non-retriable**. 
-  - Retriable error could be like no compute available, their server is down, some network issue. 
-  - Non-retriable error could be like requested more compute than your account is allowed to (eg. their policy changed) or a malformed request. waiting won't fix these, this is how you end up with a script that looks busy for two days and was never going to work.
+  - **Retriable:** error could be like no compute available, their server is down, some network issue. 
+  - **Non-retriable:** error could be like requested more compute than your account is allowed to (eg. their policy changed) or a malformed request. waiting won't fix these, this is how you end up with a script that looks busy for two days and was never going to work.
 
 And here's the annoying part. You'd assume you can just check the status code, 4xx means i broke something, 5xx means they broke something.
 
@@ -87,7 +87,7 @@ your payload should look something like this
   }
 ```
 
-#### Why a 429 is worse than it looks
+### Why a 429 is worse than it looks
 
 This one took me a while to get. Your request doesn't go straight to the thing that knows about servers, there's a rate limiter sitting in front of it.
 
@@ -118,7 +118,7 @@ your request
 
 So a rate limited request isn't a failed attempt, it's not an attempt at all. My script was running full speed, logs scrolling, and it wasn't even asking.
 
-#### Oracle's Retry Mechanism
+### Oracle's Retry Mechanism
 
 Which brings me to how i was hitting that limit without even realising.
 
@@ -145,7 +145,7 @@ attempt #2  ─────────────►  request 8
 
 And remember the 500 thing? Their sdk retries any 5xx by default (except 501), because normally a 5xx is a blip, try again in a second and it'll probably work.
 
-But "out of host capacity" is not a blip. there were no free servers a second ago and there are none now. might change in an hour, might change next week. So the sdk sees a 500, assumes it's temporary, and fires 7 more requests that were all guaranteed to fail.
+But "out of host capacity" is not a blip. there were no free servers a second ago and there are none now. might change in an hour, might change next week. So the sdk sees a 500, assumes it's temporary, and fires 7 more requests that ofcourse will fail.
 
 It gets funnier. **429 is also on their retry list.** Oracle tells you you're sending too many requests, and the sdk's answer is to send more requests. Idk what they're smoking lmao.
 
@@ -153,7 +153,7 @@ My log said attempt #47. Oracle's log said request #329.
 
 So you make sure to pass the ``--no-retry`` flag, which simply means don't handle retry for me, I am already doing the error handling so i'll retry myself. Which i think probably is the safer approach here, because my loop knows things the sdk doesn't. it knows out-of-capacity won't fix itself in one second, and that the right answer to a 429 is to back off, not to try harder.
 
-#### How I did it
+### How I did it
 
 ```
 ┌────────────────────────────────────────────────┐
