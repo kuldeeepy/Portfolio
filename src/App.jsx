@@ -299,7 +299,13 @@ export default function App() {
               >
                 <span className="proj-shot">
                   <span className={`proj-frame proj-frame--${p.frame}`}>
-                    <img src={p.shot} alt="" loading="lazy" draggable={false} />
+                    {/* Some things have no screen to photograph -- a menu bar
+                        app, a CLI. Those get a letter rather than a fake shot. */}
+                    {p.shot ? (
+                      <img src={p.shot} alt="" loading="lazy" draggable={false} />
+                    ) : (
+                      <span className="proj-letter">{p.name[0]}</span>
+                    )}
                   </span>
                 </span>
                 <span className="proj-body">
