@@ -1,7 +1,8 @@
 import kimLogo from "./assets/kim-logo.jpg";
-import shotCheckout from "./assets/shots/checkout-copilot.webp";
 import shotAlgo from "./assets/shots/algo-trader.webp";
-import shotAdscan from "./assets/shots/adscan.webp";
+// The pill as it actually looks mid-sentence, padded onto its own background
+// so the tiny browser frame does not crop it to a sliver.
+import shotWhisperly from "./assets/shots/whisperly.png";
 // Cropped to the app column; the original was a desktop capture with the
 // phone-width UI sitting left of centre, so a phone frame cut it in half.
 import shotDiet from "./assets/shots/diet-plate-mobile.png";
@@ -35,13 +36,18 @@ export const EMAIL = "";
 // Four that get the real estate. Order here is the order on the page.
 export const projects = [
   {
-    name: "checkout copilot",
+    name: "whisperly",
     frame: "browser",
-    shot: shotCheckout,
+    shot: shotWhisperly,
     tag: "Recent",
-    short: "Plain English into payment API calls.",
-    demo: "https://checkout-copilot.vercel.app",
-    code: "https://github.com/kuldeeepy/checkout-copilot",
+    short: "Hold a key, talk, and the text appears.",
+    code: "https://github.com/kuldeeepy/whisperly",
+  },
+  {
+    name: "winkscroll",
+    frame: "browser",
+    short: "Wink to turn the page.",
+    code: "https://github.com/kuldeeepy/winkscroll",
   },
   {
     name: "algo trader",
@@ -49,14 +55,6 @@ export const projects = [
     shot: shotAlgo,
     short: "Backtests intraday strategies.",
     code: "https://github.com/kuldeeepy/algo-trader",
-  },
-  {
-    // Repo is private, so this one is demo-only until it's published.
-    name: "adscan",
-    frame: "browser",
-    shot: shotAdscan,
-    short: "Ads are spending. Is anything counting?",
-    demo: "https://adscan-beta.vercel.app",
   },
   {
     name: "diet plate",
@@ -70,7 +68,9 @@ export const projects = [
 // Smaller things. These get thrown into the physics canvas — drag them around.
 // Live demo where one exists, repo otherwise.
 export const playground = [
-  { name: "winkscroll",       url: "https://github.com/kuldeeepy/winkscroll" },
+  { name: "checkout copilot", url: "https://checkout-copilot.vercel.app" },
+  // Demo rather than repo: this one is still private.
+  { name: "adscan",           url: "https://adscan-beta.vercel.app" },
   { name: "oci-a1-hunter",    url: "https://github.com/kuldeeepy/oci-a1-hunter" },
   { name: "first-mcp-server", url: "https://github.com/kuldeeepy/first-mcp-server" },
   { name: "simple-app-aws",   url: "https://github.com/kuldeeepy/simple-app-aws" },

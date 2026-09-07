@@ -499,6 +499,20 @@ a.inline-link:focus-visible::after,
 
 /* Grey by default, colour on hover — his cards do this and it keeps four
    thumbnails from competing with the text. */
+.proj-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: lowercase;
+  color: var(--text-muted, #888);
+  background-color: var(--bg-highlighted);
+}
+
 .proj-shot img {
   display: block;
   width: 100%;
