@@ -3,9 +3,6 @@ import shotAlgo from "./assets/shots/algo-trader.webp";
 // The pill as it actually looks mid-sentence, padded onto its own background
 // so the tiny browser frame does not crop it to a sliver.
 import shotWhisperly from "./assets/shots/whisperly.png";
-// Cropped to the app column; the original was a desktop capture with the
-// phone-width UI sitting left of centre, so a phone frame cut it in half.
-import shotDiet from "./assets/shots/diet-plate-mobile.png";
 
 // Overridable from Vercel so a new resume upload needs no code change.
 // The literal is a fallback, not a placeholder: if the env var is missing the
@@ -57,11 +54,10 @@ export const projects = [
     code: "https://github.com/kuldeeepy/algo-trader",
   },
   {
-    name: "diet plate",
-    frame: "phone",
-    shot: shotDiet,
-    short: "Plans a week of meals.",
-    code: "https://github.com/kuldeeepy/diet-plate",
+    name: "jev food",
+    frame: "browser",
+    short: "Pick a meal from a heap of them.",
+    demo: "https://jev-food.vercel.app",
   },
 ];
 
