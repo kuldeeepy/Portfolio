@@ -5,10 +5,13 @@ import ShapesCanvas from "../components/ShapesCanvas";
 import Footer from "../components/Footer";
 import PreviewLink from "../components/PreviewLink";
 import useTheme from "../useTheme";
+import usePageMeta from "../usePageMeta";
+import { PAGE_META } from "../site";
 import billu from "../assets/billu.webp";
 
 export default function About() {
   const { theme, toggleTheme } = useTheme();
+  usePageMeta("/about", PAGE_META["/about"]);
 
   return (
     <div style={{ position: "relative", isolation: "isolate", minHeight: "100vh" }}>

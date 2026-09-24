@@ -175,15 +175,18 @@ export default function ShapesCanvas({ theme }) {
 
     const runner = Runner.create();
     runnerRef.current = runner;
-    Render.run(render);
-    Runner.run(runner, engine);
 
-    // Pause/resume based on visibility — set up AFTER runner starts to avoid race condition
+    // Physics and drawing only run while visible; the observer's first callback
+    // starts them, so a canvas below the fold costs nothing during page load.
     const obs = new IntersectionObserver(([entry]) => {
       if (!runnerRef.current || !engineRef.current) return;
-      entry.isIntersecting
-        ? Runner.run(runnerRef.current, engineRef.current)
-        : Runner.stop(runnerRef.current);
+      if (entry.isIntersecting) {
+        Render.run(render);
+        Runner.run(runnerRef.current, engineRef.current);
+      } else {
+        Render.stop(render);
+        Runner.stop(runnerRef.current);
+      }
     }, { threshold: 0.1 });
     obs.observe(el);
 

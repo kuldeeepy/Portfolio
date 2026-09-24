@@ -10,7 +10,7 @@ export default function PreviewLink({ children, src, alt = "" }) {
     >
       {children}
       <span className="preview-tooltip">
-        <img src={src} alt={alt} />
+        <img src={src} alt={alt} loading="lazy" />
       </span>
     </a>
   );
