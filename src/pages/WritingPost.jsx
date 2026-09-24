@@ -23,6 +23,19 @@ export default function WritingPost() {
     window.scrollTo(0, 0);
   }, [slug]);
 
+  // Per-post title/description for Google (it runs JS); restored on the way out.
+  useEffect(() => {
+    if (!post) return;
+    const desc = document.querySelector('meta[name="description"]');
+    const prev = { title: document.title, desc: desc.content };
+    document.title = `${post.title} — Kuldeep Yadav`;
+    if (post.summary) desc.content = post.summary;
+    return () => {
+      document.title = prev.title;
+      desc.content = prev.desc;
+    };
+  }, [post]);
+
   return (
     <div style={{ position: "relative", isolation: "isolate", minHeight: "100vh" }}>
       <div className="blur-header" aria-hidden="true" />
