@@ -12,6 +12,7 @@
     />
     <meta name="keywords" content="Kuldeep Yadav, Software Engineer, Portfolio" />
     <link rel="canonical" href="https://kuldeeep.is-a.dev/" />
+    <link rel="alternate" type="application/rss+xml" title="Kuldeep Yadav — Writings" href="/rss.xml" />
     <!-- Link previews (LinkedIn, X, Slack, WhatsApp). These crawlers don't run JS,
          so every route shares this card; only Google sees per-post titles. -->
     <meta property="og:type" content="website" />
@@ -42,9 +43,12 @@
     <!-- Only used for the "open to work" annotation, so just the one weight. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- media=print keeps it off the critical path; it swaps in once loaded. -->
     <link
       href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
     <title>Kuldeep Yadav — Software Engineer</title>
     <!-- Google tag, fetched only after load + idle so it never competes with the page. -->

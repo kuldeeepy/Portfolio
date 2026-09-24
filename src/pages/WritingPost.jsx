@@ -5,6 +5,7 @@ import ScrambleText from "../components/ScrambleText";
 import ShapesCanvas from "../components/ShapesCanvas";
 import Footer from "../components/Footer";
 import useTheme from "../useTheme";
+import usePageMeta from "../usePageMeta";
 import { getWriting, renderMarkdown, formatFull } from "../writings";
 
 export default function WritingPost() {
@@ -23,18 +24,10 @@ export default function WritingPost() {
     window.scrollTo(0, 0);
   }, [slug]);
 
-  // Per-post title/description for Google (it runs JS); restored on the way out.
-  useEffect(() => {
-    if (!post) return;
-    const desc = document.querySelector('meta[name="description"]');
-    const prev = { title: document.title, desc: desc.content };
-    document.title = `${post.title} — Kuldeep Yadav`;
-    if (post.summary) desc.content = post.summary;
-    return () => {
-      document.title = prev.title;
-      desc.content = prev.desc;
-    };
-  }, [post]);
+  usePageMeta(
+    `/writings/${slug}`,
+    post && { title: `${post.title} — Kuldeep Yadav`, description: post.summary },
+  );
 
   return (
     <div style={{ position: "relative", isolation: "isolate", minHeight: "100vh" }}>

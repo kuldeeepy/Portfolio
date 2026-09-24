@@ -8,7 +8,7 @@ summary: Oracle's free ARM servers are never in stock, at least in my region, so
 
 Considering that i am broke as hell at every month-end but i also want my own cloud server where i can host my sloppy 0 rps apis and run some random background job without choking my local machine. Also solves the downtime issue.
 
-![gogle](https://shorturl.at/OklFs)
+![gogle](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx4RrFbfj6DlycjM6VSNsOMNrSyjsKfMMwXJrNEJkrsA&s=10)
 
 I got to know oracle has an always free tier which has two types of compute instances
 
@@ -32,7 +32,7 @@ I was able to get these two AMD instances and one of them i am using to hunt for
 ARM shape is mostly always out of stock in popular / busiest regions and obviously there's no waiting list or free-up notification saying "here you go with an always free instance" so the best we can do is keep hitting (begging) their servers for a VM instance.
 
 
-<!-- ![gogle](https://shorturl.at/EZPl2) -->
+<!-- ![gogle](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmLDcg7ciAT3jI7kfm1YqAOXw8TziBz4x_-XG9vIAL3w&s=10) -->
 
 ### The naive approach
 

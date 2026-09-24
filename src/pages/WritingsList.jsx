@@ -4,10 +4,13 @@ import ScrambleText from "../components/ScrambleText";
 import ShapesCanvas from "../components/ShapesCanvas";
 import Footer from "../components/Footer";
 import useTheme from "../useTheme";
+import usePageMeta from "../usePageMeta";
+import { PAGE_META } from "../site";
 import { getAllWritings, formatMonth } from "../writings";
 
 export default function WritingsList() {
   const { theme, toggleTheme } = useTheme();
+  usePageMeta("/writings", PAGE_META["/writings"]);
   const writings = getAllWritings();
 
   return (

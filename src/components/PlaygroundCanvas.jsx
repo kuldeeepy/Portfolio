@@ -95,9 +95,19 @@ export default function PlaygroundCanvas({ items, theme }) {
     };
 
     paint();
-    frame = requestAnimationFrame(tick);
+
+    // Only simulate while on screen — the pills drop in when scrolled to.
+    const obs = new IntersectionObserver(([entry]) => {
+      cancelAnimationFrame(frame);
+      if (entry.isIntersecting) {
+        last = performance.now();
+        frame = requestAnimationFrame(tick);
+      }
+    });
+    obs.observe(scene);
 
     return () => {
+      obs.disconnect();
       cancelAnimationFrame(frame);
       Events.off(mouseConstraint);
       Composite.clear(engine.world, false);

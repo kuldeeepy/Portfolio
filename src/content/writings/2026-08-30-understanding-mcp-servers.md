@@ -8,7 +8,7 @@ summary: MCP sounds complex at first, but at its core, it's a standardized way f
 
 The first time I heard about MCP, It seemed like something really complex.
 
-![gogle](https://shorturl.at/EZPl2)
+![gogle](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmLDcg7ciAT3jI7kfm1YqAOXw8TziBz4x_-XG9vIAL3w&s=10)
 
 **But it isn't.**
 
