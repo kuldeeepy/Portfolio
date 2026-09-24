@@ -26,12 +26,15 @@ function monthLabels(weeks) {
   return labels;
 }
 
+// One formatter for all 365 cells; toLocaleDateString builds a new one per call.
+const fullDate = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+});
+
 function title(day) {
-  const date = new Date(day.date).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+  const date = fullDate.format(new Date(day.date));
   return `${day.count} contribution${day.count === 1 ? "" : "s"} on ${date}`;
 }
 
