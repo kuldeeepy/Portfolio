@@ -19,6 +19,21 @@
       rel="stylesheet"
     />
     <title>Kuldeep Yadav</title>
+    <!-- Google tag, fetched only after load + idle so it never competes with the page. -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-FRD1H9GGXZ');
+      addEventListener('load', function () {
+        (window.requestIdleCallback || setTimeout)(function () {
+          var s = document.createElement('script');
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-FRD1H9GGXZ';
+          s.async = true;
+          document.head.appendChild(s);
+        });
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>
