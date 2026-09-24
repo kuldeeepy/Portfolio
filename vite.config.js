@@ -31,6 +31,7 @@ function readPosts() {
 
 // Build-time output for crawlers that don't run JS (LinkedIn, X, Slack, Bing):
 // sitemap.xml, rss.xml, and an index.html per route with its own <head>.
+// rss.xml carries full post HTML: dev.to's feed import builds drafts from it.
 // Vercel serves these files before the SPA rewrite kicks in.
 function staticPages() {
   return {
@@ -51,7 +52,7 @@ function staticPages() {
         type: 'asset',
         fileName: 'rss.xml',
         source: `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
 <channel>
   <title>Kuldeep Yadav — Writings</title>
   <link>${SITE_URL}/writings</link>
@@ -63,6 +64,7 @@ ${posts.map((p) => `  <item>
     <guid>${SITE_URL}/writings/${p.slug}</guid>
     <pubDate>${new Date(p.date).toUTCString()}</pubDate>
     <description>${esc(p.summary)}</description>
+    <content:encoded><![CDATA[${marked.parse(p.body).replaceAll(']]>', ']]]]><![CDATA[>')}]]></content:encoded>
   </item>`).join('\n')}
 </channel>
 </rss>
