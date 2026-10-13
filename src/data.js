@@ -14,7 +14,7 @@ export const RESUME_URL   =
 // Public URLs — hardcoded on purpose. As env vars these silently rendered as
 // text with no href whenever a var was missing, which is what happened in
 // production: the four social vars were never set on Vercel.
-export const X_URL        = "https://x.com/iamkuldeepY";
+export const X_URL        = "https://x.com/itskuldeeep";
 export const GIT_URL      = "https://github.com/kuldeeepy";
 export const LINKEDIN_URL = "https://www.linkedin.com/in/kuldeeep-yadav/";
 export const LEETCODE_URL = "https://leetcode.com/u/kuldeeepy/";
