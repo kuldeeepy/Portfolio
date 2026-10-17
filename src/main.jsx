@@ -6,6 +6,7 @@ import App from "./App.jsx";
 import About from "./pages/About.jsx";
 import WritingsList from "./pages/WritingsList.jsx";
 import WritingPost from "./pages/WritingPost.jsx";
+import Ripples from "./components/Ripples.jsx";
 import "./index.css";
 
 // Apply the stored/system theme on first paint for every route (direct links
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/writings" element={<WritingsList />} />
         <Route path="/writings/:slug" element={<WritingPost />} />
       </Routes>
+      <Ripples />
     </BrowserRouter>
   </React.StrictMode>
 );
