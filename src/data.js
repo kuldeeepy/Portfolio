@@ -33,24 +33,24 @@ export const EMAIL = "kuldeeep.yadav1@gmail.com";
 // Four that get the real estate. Order here is the order on the page.
 export const projects = [
   {
-    name: "whisperly",
-    frame: "browser",
-    shot: shotWhisperly,
-    tag: "Recent",
-    short: "Hold a key, talk, and the text appears.",
-    code: "https://github.com/kuldeeepy/whisperly",
-  },
-  {
-    name: "webmcp recorder",
-    frame: "browser",
-    short: "Teach a web task once, it runs per row.",
-    code: "https://github.com/kuldeeepy/webmcp-recorder",
-  },
-  {
     name: "sleeplog",
     frame: "browser",
     short: "Sleep tracking with just a phone.",
     code: "https://github.com/kuldeeepy/sleeplog",
+  },
+  {
+    name: "webmcp recorder",
+    frame: "browser",
+    tag: "Recent",
+    short: "Teach a web task once, it runs per row.",
+    code: "https://github.com/kuldeeepy/webmcp-recorder",
+  },
+  {
+    name: "whisperly",
+    frame: "browser",
+    shot: shotWhisperly,
+    short: "Hold a key, talk, and the text appears.",
+    code: "https://github.com/kuldeeepy/whisperly",
   },
   {
     name: "algo trader",
@@ -73,6 +73,7 @@ export const playground = [
   { name: "money-tracker",    url: "https://github.com/kuldeeepy/money-tracker" },
   { name: "winkscroll",       url: "https://github.com/kuldeeepy/winkscroll" },
   { name: "jev food",         url: "https://jev-food.vercel.app" },
+  { name: "gunrun",           url: "https://gunrun-orpin.vercel.app" },
 ];
 
 // `start`/`end` are "YYYY-MM"; `end: null` means current. Duration is computed
