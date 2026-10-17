@@ -621,8 +621,9 @@ a.inline-link:focus-visible::after,
   position: absolute;
   right: 100%;
   bottom: 50%;
-  margin-right: 10px;
-  margin-bottom: -10px;
+  /* Puts the arrow's tip level with the button's middle, just short of it. */
+  margin-right: 5px;
+  margin-bottom: -2px;
   display: block;
   font-family: "Caveat", "Bradley Hand", "Segoe Script", cursive;
   font-size: 1.35rem;
