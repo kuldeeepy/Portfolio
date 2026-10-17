@@ -133,7 +133,9 @@ a, button {
   width: 100%;
   max-width: 700px;
   margin: 0 auto;
-  padding: 3.5rem 2rem 16rem;
+  /* The bottom padding is room for the shapes pile, which sits on the floor
+     of a 480px box; any more and it drifts away from the footer. */
+  padding: 3.5rem 2rem 8rem;
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
