@@ -213,10 +213,19 @@ export default function App() {
 
         {/* intro */}
         <Section delay={0.1} gap="1rem">
-          <p className="intro-bio">
-            I&apos;m an engineer who makes things pretty, then finds out why they&apos;re slow.
-            I start more projects than I finish; the survivors get written up below.
-          </p>
+          {/* Phones only: the card tucks into the screen edge beside the bio
+              instead of at the bottom, and the bio curves around it. Desktop
+              keeps the bottom one, rendered further down; it can't live in
+              here, since this section's entrance animation would stop a fixed
+              card from staying fixed. */}
+          <div className="intro-wrap">
+            <Spotify theme={theme} />
+            <span className="spotify-float" aria-hidden="true" />
+            <p className="intro-bio">
+              I&apos;m an engineer who makes things pretty, then finds out why they&apos;re slow.
+              I start more projects than I finish; the survivors get written up below.
+            </p>
+          </div>
           <div className="cta-row">
             <span className="cta-note" aria-hidden="true">
               <span className="cta-note-text">open to work</span>
@@ -356,12 +365,14 @@ export default function App() {
         </Section>
 
 
-        <Spotify theme={theme} />
 
         {/* footer — location, socials and theme toggle on one line */}
         <Section delay={0.6}>
           <Footer theme={theme} toggleTheme={toggleTheme} />
         </Section>
+        <div className="spotify-edge">
+          <Spotify theme={theme} />
+        </div>
       </main>
 
       <CommandPalette

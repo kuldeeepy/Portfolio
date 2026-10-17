@@ -137,6 +137,10 @@ function Skeleton({ theme }: { theme: "light" | "dark" }) {
 
 // ─── container ────────────────────────────────────────────────────────────────
 
+// Shared by every instance, so the phone disc and the edge card make one
+// request between them.
+let lastSong: ReturnType<typeof getLastSong> | null = null;
+
 export default function Spotify({
   theme = "light",
 }: {
@@ -146,7 +150,7 @@ export default function Spotify({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getLastSong().then((result) => {
+    (lastSong ??= getLastSong()).then((result) => {
       if (result?.success) {
         const t = result.song;
         const nowPlaying = t["@attr"]?.nowplaying === "true";
