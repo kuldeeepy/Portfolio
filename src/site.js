@@ -5,14 +5,14 @@ export const SITE_URL = "https://kuldeeep.is-a.dev";
 export const DEFAULT_META = {
   title: "Kuldeep Yadav — Software Engineer",
   description:
-    "Kuldeep Yadav, a software engineer in India with 2+ years building zero to one: AI, startups, and how things work underneath.",
+    "Kuldeep Yadav, an engineer who makes things pretty, then finds out why they're slow. Side projects and writing.",
 };
 
 export const PAGE_META = {
   "/about": {
     title: "About — Kuldeep Yadav",
     description:
-      "Kuldeep Yadav outside of work: reading about startups, finance and new tech, planning solo trips, and annoying the cat.",
+      "Kuldeep Yadav outside of work: travel vlogs for a solo trip he keeps postponing, pull-ups, and annoying the cat.",
   },
   "/writings": {
     title: "Writings — Kuldeep Yadav",

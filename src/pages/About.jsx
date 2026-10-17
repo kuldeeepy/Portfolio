@@ -39,10 +39,8 @@ export default function About() {
               About Me
             </ScrambleText>
             <p style={{ color: "var(--body-color)" }}>
-              Beyond work, I like to read about startups, finance, new cool tech,
-              random article on medium. You&apos;ll occasionally find me watching
-              travel vlogs for my next solo trip or doing pull-ups at gym. and yes
-              annoying my{" "}
+              When I&apos;m not building, I&apos;m watching travel vlogs for a solo trip I
+              keep postponing, doing pull-ups, or annoying my{" "}
               <PreviewLink src={billu} alt="Billu">
                 cat
               </PreviewLink>{" "}

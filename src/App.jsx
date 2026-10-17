@@ -22,7 +22,7 @@ import {
   connectLinks,
   RESUME_URL,
   GIT_USER,
-  LINKEDIN_URL,
+  EMAIL,
 } from "./data";
 import { getAllWritings, formatMonth } from "./writings";
 import picture from "./assets/kuldeep2.webp";
@@ -150,6 +150,7 @@ export default function App() {
 
   return (
     <div
+      className="home-root"
       style={{ position: "relative", isolation: "isolate", minHeight: "100vh" }}
     >
       <div className="blur-header" aria-hidden="true" />
@@ -213,22 +214,23 @@ export default function App() {
 
         {/* intro */}
         <Section delay={0.1} gap="1rem">
-          <p className="intro-bio">
-            Engineer based in India, with 2+ years of experience building zero&nbsp;to&nbsp;one,
-            obsessed with building things, AI, startups and how things work underneath.
-          </p>
+          {/* Phones only: the Spotify card tucks into the screen edge, centred
+              on the bio, rather than the bottom corner. Desktop keeps the
+              bottom one, rendered further down. */}
+          <div className="intro-wrap">
+            <Spotify theme={theme} />
+            <p className="intro-bio">
+              I&apos;m an engineer who makes things pretty, then finds out why they&apos;re slow.
+              I start more projects than I finish; the survivors get written up below.
+            </p>
+          </div>
           <div className="cta-row">
             <span className="cta-note" aria-hidden="true">
               <span className="cta-note-text">open to work</span>
               <Scribble />
             </span>
-            <a
-              href={LINKEDIN_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cta-btn"
-            >
-              <SocialIcon social="linkedin" />
+            <a href={`mailto:${EMAIL}`} className="cta-btn">
+              <SocialIcon social="mail" />
               Message me
             </a>
           </div>
@@ -351,9 +353,8 @@ export default function App() {
         {/* about me */}
         <Section delay={0.5}>
           <p style={{ color: "var(--body-color)" }}>
-            Beyond work, you&apos;ll occasionally find me watching travel vlogs
-            for my next solo trip or doing pull-ups at the gym. And yes,
-            annoying my{" "}
+            When I&apos;m not building, I&apos;m watching travel vlogs for a solo trip I
+            keep postponing, doing pull-ups, or annoying my{" "}
             <PreviewLink src={billu} alt="Billu">
               cat
             </PreviewLink>{" "}
@@ -362,12 +363,13 @@ export default function App() {
         </Section>
 
 
-        <Spotify theme={theme} />
-
         {/* footer — location, socials and theme toggle on one line */}
         <Section delay={0.6}>
           <Footer theme={theme} toggleTheme={toggleTheme} />
         </Section>
+        <div className="spotify-edge">
+          <Spotify theme={theme} />
+        </div>
       </main>
 
       <CommandPalette

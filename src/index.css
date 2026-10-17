@@ -133,7 +133,9 @@ a, button {
   width: 100%;
   max-width: 700px;
   margin: 0 auto;
-  padding: 3.5rem 2rem 16rem;
+  /* The bottom padding is room for the shapes pile, which sits on the floor
+     of a 480px box; any more and it drifts away from the footer. */
+  padding: 3.5rem 2rem 8rem;
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
@@ -621,8 +623,9 @@ a.inline-link:focus-visible::after,
   position: absolute;
   right: 100%;
   bottom: 50%;
-  margin-right: 10px;
-  margin-bottom: -10px;
+  /* Puts the arrow's tip level with the button's middle, just short of it. */
+  margin-right: 5px;
+  margin-bottom: -2px;
   display: block;
   font-family: "Caveat", "Bradley Hand", "Segoe Script", cursive;
   font-size: 1.35rem;
@@ -1406,6 +1409,36 @@ a.inline-link:focus-visible::after,
 .intro-bio {
   color: var(--body-color);
   line-height: 1.4;
+}
+
+/* Phones: the Spotify card tucks into the screen edge centred on the bio,
+   rather than the bottom corner, a little larger so it reads as a disc, and
+   peeks and slides out on tap exactly as before. Desktop keeps the bottom card
+   untouched. */
+@media (min-width: 641px) {
+  .intro-wrap .spotify-card { display: none; }
+}
+
+@media (max-width: 640px) {
+  /* The tucked-away part of the card is off-screen; don't let it scroll. */
+  .home-root { overflow-x: clip; }
+  .spotify-edge { display: none; }
+  .intro-wrap { position: relative; }
+  .intro-wrap .spotify-card {
+    position: absolute;
+    /* Centred on the bio: the card is the 68px disc plus 10px padding above
+       and below. */
+    top: calc(50% - 44px);
+    bottom: auto;
+    /* From the bio's right edge out to the screen's. */
+    right: calc((100% - 100vw) / 2);
+  }
+  /* 50px of the card shows: 10px padding, then 40px of disc. */
+  .intro-wrap .spotify-card:not(.is-open) { transform: translateX(calc(100% - 50px)); }
+  .intro-wrap .spotify-disc { width: 68px; height: 68px; }
+  /* Stop the lines short of the disc, by however far it reaches past the
+     page margin, plus a little air. */
+  .intro-wrap .intro-bio { padding-right: max(0px, calc(52px - (100vw - 100%) / 2)); }
 }
 
 /* ─── Writing rows (homepage + list page) ─── */

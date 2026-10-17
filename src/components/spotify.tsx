@@ -137,6 +137,10 @@ function Skeleton({ theme }: { theme: "light" | "dark" }) {
 
 // ─── container ────────────────────────────────────────────────────────────────
 
+// The phone disc and the edge card mount together; share the one request
+// in flight between them, then let the next visit fetch fresh.
+let inFlight: ReturnType<typeof getLastSong> | null = null;
+
 export default function Spotify({
   theme = "light",
 }: {
@@ -146,7 +150,10 @@ export default function Spotify({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getLastSong().then((result) => {
+    inFlight ??= getLastSong().finally(() => {
+      inFlight = null;
+    });
+    inFlight.then((result) => {
       if (result?.success) {
         const t = result.song;
         const nowPlaying = t["@attr"]?.nowplaying === "true";

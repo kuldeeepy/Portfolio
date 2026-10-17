@@ -9,7 +9,7 @@ import shotWhisperly from "./assets/shots/whisperly.png";
 // link still works. Leaving it env-only is what left the social links dead.
 export const RESUME_URL   =
   import.meta.env.VITE_RESUME ||
-  "https://drive.google.com/file/d/1LH8oKJOWPuqB60mUY-BRbiw2LUf76K0L/view?usp=sharing";
+  "https://drive.google.com/file/d/1Q184-FIHp8oUcqPK_d4RXsBH7Q-bL8qQ/view?usp=sharing";
 
 // Public URLs — hardcoded on purpose. As env vars these silently rendered as
 // text with no href whenever a var was missing, which is what happened in
@@ -22,9 +22,9 @@ export const LEETCODE_URL = "https://leetcode.com/u/kuldeeepy/";
 // Personal account — this is what the contribution graph reads.
 export const GIT_USER = "kuldeeepy";
 
-// Fill this in and the mail icon appears in the footer row. Empty on purpose:
-// a mailto: to a guessed address is worse than no icon at all.
-export const EMAIL = "";
+// Used by "Message me" and the mail icon in the social row. Empty hides the
+// icon: a mailto: to a guessed address is worse than none.
+export const EMAIL = "kuldeeep.yadav1@gmail.com";
 
 // `frame` shapes the thumbnail: a browser chrome for web apps, a handset for
 // mobile ones. At 80px the silhouette is what reads, not the screenshot.
@@ -33,18 +33,24 @@ export const EMAIL = "";
 // Four that get the real estate. Order here is the order on the page.
 export const projects = [
   {
+    name: "sleeplog",
+    frame: "browser",
+    short: "Sleep tracking with just a phone.",
+    code: "https://github.com/kuldeeepy/sleeplog",
+  },
+  {
+    name: "webmcp recorder",
+    frame: "browser",
+    tag: "Recent",
+    short: "Teach a web task once, it runs per row.",
+    code: "https://github.com/kuldeeepy/webmcp-recorder",
+  },
+  {
     name: "whisperly",
     frame: "browser",
     shot: shotWhisperly,
-    tag: "Recent",
     short: "Hold a key, talk, and the text appears.",
     code: "https://github.com/kuldeeepy/whisperly",
-  },
-  {
-    name: "winkscroll",
-    frame: "browser",
-    short: "Wink to turn the page.",
-    code: "https://github.com/kuldeeepy/winkscroll",
   },
   {
     name: "algo trader",
@@ -52,12 +58,7 @@ export const projects = [
     shot: shotAlgo,
     short: "Backtests intraday strategies.",
     code: "https://github.com/kuldeeepy/algo-trader",
-  },
-  {
-    name: "jev food",
-    frame: "browser",
-    short: "Pick a meal from a heap of them.",
-    demo: "https://jev-food.vercel.app",
+    demo: "https://algo-trader-six.vercel.app",
   },
 ];
 
@@ -69,26 +70,21 @@ export const playground = [
   { name: "adscan",           url: "https://adscan-beta.vercel.app" },
   { name: "oci-a1-hunter",    url: "https://github.com/kuldeeepy/oci-a1-hunter" },
   { name: "first-mcp-server", url: "https://github.com/kuldeeepy/first-mcp-server" },
-  { name: "simple-app-aws",   url: "https://github.com/kuldeeepy/simple-app-aws" },
   { name: "money-tracker",    url: "https://github.com/kuldeeepy/money-tracker" },
-  { name: "e-commerce-cicd",  url: "https://github.com/kuldeeepy/e-commerce-cicd" },
-  { name: "github-activity",  url: "https://github.com/kuldeeepy/github-activity" },
-  { name: "OpenBook",         url: "https://openbook-org.vercel.app" },
+  { name: "winkscroll",       url: "https://github.com/kuldeeepy/winkscroll" },
+  { name: "jev food",         url: "https://jev-food.vercel.app" },
+  { name: "gunrun",           url: "https://gunrun-orpin.vercel.app" },
 ];
 
 // `start`/`end` are "YYYY-MM"; `end: null` means current. Duration is computed
 // from them, so it stays right without anyone editing a hardcoded "10 mos".
-// Set to null until the real months are confirmed — a wrong date on a CV is
-// worse than a missing one, so the row just shows the year range instead.
 export const workHistory = [
   {
     role: "Software Engineer",
     company: "Kim.cc",
     location: "Hybrid",
-    start: null,
+    start: "2024-12",
     end: null,
-    from: "2024",
-    to: "Now",
     link: "https://kim.cc",
     // Real logo, stored locally: the LinkedIn CDN URL it came from carries an
     // expiry token and would have 404'd in a couple of weeks.
@@ -96,12 +92,10 @@ export const workHistory = [
   },
   {
     role: "Founding Engineer",
-    company: "Go CrossPay",
+    company: "CrossPe",
     location: "Remote",
-    start: null,
-    end: null,
-    from: "2024",
-    to: "2024",
+    start: "2024-04",
+    end: "2024-06",
     link: "https://www.gocrosspe.com",
     favicon: "https://www.google.com/s2/favicons?domain=gocrosspe.com&sz=64",
   },
