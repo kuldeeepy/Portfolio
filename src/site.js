@@ -12,7 +12,7 @@ export const PAGE_META = {
   "/about": {
     title: "About — Kuldeep Yadav",
     description:
-      "Kuldeep Yadav outside of work: reading about startups, finance and new tech, planning solo trips, and annoying the cat.",
+      "Kuldeep Yadav outside of work: travel vlogs for a solo trip he keeps postponing, pull-ups, and annoying the cat.",
   },
   "/writings": {
     title: "Writings — Kuldeep Yadav",

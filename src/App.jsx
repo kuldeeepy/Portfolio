@@ -346,9 +346,8 @@ export default function App() {
         {/* about me */}
         <Section delay={0.5}>
           <p style={{ color: "var(--body-color)" }}>
-            Beyond work, you&apos;ll occasionally find me watching travel vlogs
-            for my next solo trip or doing pull-ups at the gym. And yes,
-            annoying my{" "}
+            When I&apos;m not building, I&apos;m watching travel vlogs for a solo trip I
+            keep postponing, doing pull-ups, or annoying my{" "}
             <PreviewLink src={billu} alt="Billu">
               cat
             </PreviewLink>{" "}
