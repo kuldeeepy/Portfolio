@@ -1408,12 +1408,10 @@ a.inline-link:focus-visible::after,
   line-height: 1.4;
 }
 
-/* Phones: the Spotify card tucks into the screen edge beside the bio rather
-   than at the bottom, peeking and sliding out exactly as before, and the bio
-   curves around the half-disc. Desktop keeps the bottom card untouched. */
-.intro-wrap { display: flow-root; position: relative; }
-.spotify-float { display: none; }
-
+/* Phones: the Spotify card tucks into the screen edge centred on the bio,
+   rather than the bottom corner, a little larger so it reads as a disc, and
+   peeks and slides out on tap exactly as before. Desktop keeps the bottom card
+   untouched. */
 @media (min-width: 641px) {
   .intro-wrap .spotify-card { display: none; }
 }
@@ -1422,22 +1420,22 @@ a.inline-link:focus-visible::after,
   /* The tucked-away part of the card is off-screen; don't let it scroll. */
   #root > div { overflow-x: clip; }
   .spotify-edge { display: none; }
+  .intro-wrap { position: relative; }
   .intro-wrap .spotify-card {
     position: absolute;
-    top: 6px;
+    /* Centred on the bio: the card is the 68px disc plus 10px padding above
+       and below. */
+    top: calc(50% - 44px);
     bottom: auto;
     /* From the bio's right edge out to the screen's. */
     right: calc((100% - 100vw) / 2);
   }
-  /* Holds the bio's text off the half-disc, following its curve. */
-  .spotify-float {
-    display: block;
-    float: right;
-    width: 42px;
-    height: 84px;
-    shape-outside: circle(42px at 100% 50%);
-    shape-margin: 8px;
-  }
+  /* 50px of the card shows: 10px padding, then 40px of disc. */
+  .intro-wrap .spotify-card:not(.is-open) { transform: translateX(calc(100% - 50px)); }
+  .intro-wrap .spotify-disc { width: 68px; height: 68px; }
+  /* Stop the lines short of the disc, by however far it reaches past the
+     page margin, plus a little air. */
+  .intro-wrap .intro-bio { padding-right: max(0px, calc(52px - (100vw - 100%) / 2)); }
 }
 
 /* ─── Writing rows (homepage + list page) ─── */

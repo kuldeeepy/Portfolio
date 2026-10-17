@@ -213,14 +213,11 @@ export default function App() {
 
         {/* intro */}
         <Section delay={0.1} gap="1rem">
-          {/* Phones only: the card tucks into the screen edge beside the bio
-              instead of at the bottom, and the bio curves around it. Desktop
-              keeps the bottom one, rendered further down; it can't live in
-              here, since this section's entrance animation would stop a fixed
-              card from staying fixed. */}
+          {/* Phones only: the Spotify card tucks into the screen edge, centred
+              on the bio, rather than the bottom corner. Desktop keeps the
+              bottom one, rendered further down. */}
           <div className="intro-wrap">
             <Spotify theme={theme} />
-            <span className="spotify-float" aria-hidden="true" />
             <p className="intro-bio">
               I&apos;m an engineer who makes things pretty, then finds out why they&apos;re slow.
               I start more projects than I finish; the survivors get written up below.
