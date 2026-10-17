@@ -150,6 +150,7 @@ export default function App() {
 
   return (
     <div
+      className="home-root"
       style={{ position: "relative", isolation: "isolate", minHeight: "100vh" }}
     >
       <div className="blur-header" aria-hidden="true" />
@@ -360,7 +361,6 @@ export default function App() {
             🐾
           </p>
         </Section>
-
 
 
         {/* footer — location, socials and theme toggle on one line */}

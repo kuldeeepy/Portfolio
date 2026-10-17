@@ -22,8 +22,8 @@ export const LEETCODE_URL = "https://leetcode.com/u/kuldeeepy/";
 // Personal account — this is what the contribution graph reads.
 export const GIT_USER = "kuldeeepy";
 
-// Fill this in and the mail icon appears in the footer row. Empty on purpose:
-// a mailto: to a guessed address is worse than no icon at all.
+// Used by "Message me" and the mail icon in the social row. Empty hides the
+// icon: a mailto: to a guessed address is worse than none.
 export const EMAIL = "kuldeeep.yadav1@gmail.com";
 
 // `frame` shapes the thumbnail: a browser chrome for web apps, a handset for

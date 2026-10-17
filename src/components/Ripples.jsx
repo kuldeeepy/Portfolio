@@ -4,8 +4,9 @@ import { useEffect, useRef } from "react";
 // after the background in the Claude desktop app: the wavefront reveals the
 // characters, strongest at its leading edge, fading behind. Where Claude draws
 // a heart every third click, this draws ॐ every second one: the symbol grows
-// out from the click with a fading trail, in the same characters. Nothing draws, and the
-// loop stops, once every wave has faded, so an idle page costs nothing.
+// out from the click with a fading trail, in the same characters. Nothing
+// draws, and the loop stops, once every wave has faded, so an idle page costs
+// nothing.
 const CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 const FONT_PX = 10;
 const CELL_W = 7;       // px per column

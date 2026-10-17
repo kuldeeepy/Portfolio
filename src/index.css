@@ -1421,7 +1421,7 @@ a.inline-link:focus-visible::after,
 
 @media (max-width: 640px) {
   /* The tucked-away part of the card is off-screen; don't let it scroll. */
-  #root > div { overflow-x: clip; }
+  .home-root { overflow-x: clip; }
   .spotify-edge { display: none; }
   .intro-wrap { position: relative; }
   .intro-wrap .spotify-card {
