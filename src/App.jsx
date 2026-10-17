@@ -214,8 +214,8 @@ export default function App() {
         {/* intro */}
         <Section delay={0.1} gap="1rem">
           <p className="intro-bio">
-            Engineer based in India, with 2+ years of experience building zero&nbsp;to&nbsp;one,
-            obsessed with building things, AI, startups and how things work underneath.
+            I&apos;m an engineer who makes things pretty, then finds out why they&apos;re slow.
+            I start more projects than I finish; the survivors get written up below.
           </p>
           <div className="cta-row">
             <span className="cta-note" aria-hidden="true">
