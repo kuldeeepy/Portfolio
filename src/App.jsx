@@ -22,7 +22,7 @@ import {
   connectLinks,
   RESUME_URL,
   GIT_USER,
-  LINKEDIN_URL,
+  EMAIL,
 } from "./data";
 import { getAllWritings, formatMonth } from "./writings";
 import picture from "./assets/kuldeep2.webp";
@@ -222,13 +222,8 @@ export default function App() {
               <span className="cta-note-text">open to work</span>
               <Scribble />
             </span>
-            <a
-              href={LINKEDIN_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cta-btn"
-            >
-              <SocialIcon social="linkedin" />
+            <a href={`mailto:${EMAIL}`} className="cta-btn">
+              <SocialIcon social="mail" />
               Message me
             </a>
           </div>
