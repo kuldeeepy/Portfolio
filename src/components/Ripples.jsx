@@ -18,6 +18,12 @@ const OM_EVERY = 2;
 const OM_SIZE = 200;    // px the symbol is drawn at in its stencil
 const OM_TRAIL = [[1, 1], [0.93, 0.55], [0.86, 0.3], [0.79, 0.15]]; // [scale, strength]
 
+// On a phone the same wave fills the whole screen, so touch gets a quieter one:
+// shorter and fainter, ॐ less often, and only on a real tap, never a scroll.
+// pointerdown also fires when a finger starts a scroll; click only fires on a tap.
+const TOUCH = { speed: 420, tail: 90, life: 1.4, strength: 0.5, omEvery: 4, event: "click" };
+const MOUSE = { speed: SPEED, tail: TAIL, life: LIFE, strength: 1, omEvery: OM_EVERY, event: "pointerdown" };
+
 // One colour per theme, measured from screen recordings of the Claude app: a
 // steel blue on dark, a slate blue-grey on light. Only the alpha varies.
 const THEME = {
@@ -51,6 +57,7 @@ export default function Ripples() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    const { speed, tail, life, strength, omEvery, event } = window.matchMedia("(pointer: coarse)").matches ? TOUCH : MOUSE;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -76,13 +83,14 @@ export default function Ripples() {
 
     const frame = (now) => {
       const t = now / 1000;
-      waves = waves.filter((w) => t - w.t0 < LIFE);
+      waves = waves.filter((w) => t - w.t0 < life);
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       if (!waves.length) { raf = 0; return; }
 
-      const { rgb, max } = THEME[document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark"];
+      const { rgb, max: themeMax } = THEME[document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark"];
+      const max = themeMax * strength;
       ctx.font = `${FONT_PX}px ui-monospace, SFMono-Regular, Menlo, monospace`;
       ctx.textBaseline = "top";
 
@@ -92,9 +100,9 @@ export default function Ripples() {
           let alpha = 0, front = 0;
           for (const w of waves) {
             const age = t - w.t0;
-            const fade = 1 - age / LIFE;
+            const fade = 1 - age / life;
             const dx = x - w.x, dy = y - w.y;
-            const r = age * SPEED;
+            const r = age * speed;
 
             if (w.om) {
               // The symbol grows with the wave, slower than the ripple so it
@@ -111,8 +119,8 @@ export default function Ripples() {
             }
 
             const behind = r - Math.hypot(dx, dy);
-            if (behind < -6 || behind > TAIL) continue;
-            const v = behind < 0 ? 1 + behind / 6 : 1 - behind / TAIL;
+            if (behind < -6 || behind > tail) continue;
+            const v = behind < 0 ? 1 + behind / 6 : 1 - behind / tail;
             alpha += v * v * fade * max;
             front = Math.max(front, behind < 24 ? fade * (1 - Math.max(0, behind) / 24) : 0);
           }
@@ -129,7 +137,7 @@ export default function Ripples() {
 
     const onDown = (e) => {
       clicks++;
-      const isOm = clicks % OM_EVERY === 0;
+      const isOm = clicks % omEvery === 0;
       if (isOm) om ??= drawOm();
       waves.push({ x: e.clientX, y: e.clientY, t0: performance.now() / 1000, om: isOm });
       if (!raf) raf = requestAnimationFrame(frame);
@@ -137,11 +145,11 @@ export default function Ripples() {
 
     resize();
     window.addEventListener("resize", resize);
-    window.addEventListener("pointerdown", onDown);
+    window.addEventListener(event, onDown);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
-      window.removeEventListener("pointerdown", onDown);
+      window.removeEventListener(event, onDown);
     };
   }, []);
 
