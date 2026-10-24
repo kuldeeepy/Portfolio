@@ -1,7 +1,6 @@
 import kimLogo from "./assets/kim-logo.jpg";
 import shotAlgo from "./assets/shots/algo-trader.webp";
-// The pill as it actually looks mid-sentence, padded onto its own background
-// so the tiny browser frame does not crop it to a sliver.
+import shotCheckout from "./assets/shots/checkout-copilot.webp";
 import shotWhisperly from "./assets/shots/whisperly.png";
 
 // Overridable from Vercel so a new resume upload needs no code change.
@@ -46,11 +45,12 @@ export const projects = [
     code: "https://github.com/kuldeeepy/webmcp-recorder",
   },
   {
-    name: "whisperly",
+    name: "botsense",
     frame: "browser",
-    shot: shotWhisperly,
-    short: "Hold a key, talk, and the text appears.",
-    code: "https://github.com/kuldeeepy/whisperly",
+    shot: shotCheckout,
+    short: "Real-time monitoring for AI agents.",
+    code: "https://github.com/kuldeeepy/botsense",
+    demo: "https://botsense.vercel.app",
   },
   {
     name: "algo trader",
@@ -65,8 +65,8 @@ export const projects = [
 // Smaller things. These get thrown into the physics canvas — drag them around.
 // Live demo where one exists, repo otherwise.
 export const playground = [
-  { name: "checkout copilot", url: "https://checkout-copilot.vercel.app" },
   // Demo rather than repo: this one is still private.
+  { name: "whisperly",           url: "https://github.com/kuldeeepy/whisperly" },
   { name: "adscan",           url: "https://adscan-beta.vercel.app" },
   { name: "oci-a1-hunter",    url: "https://github.com/kuldeeepy/oci-a1-hunter" },
   { name: "first-mcp-server", url: "https://github.com/kuldeeepy/first-mcp-server" },
