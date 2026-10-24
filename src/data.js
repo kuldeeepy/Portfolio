@@ -48,8 +48,7 @@ export const projects = [
     name: "botsense",
     frame: "browser",
     shot: shotCheckout,
-    short: "Real-time monitoring for AI agents.",
-    code: "https://github.com/kuldeeepy/botsense",
+    short: "Labels bot orders on Shopify stores.",
     demo: "https://botsense.vercel.app",
   },
   {
